@@ -74,6 +74,14 @@ mongod -port 27017  -dbpath "db"
 
 mongoimport -d "db" -c test --type json --file washington-addresses-county.geojson
 ```
+
+
+If ur using inetllij u can add the mongo interaface by connecting with DB
+![mongodriver](screenshots/Screenshot%20from%202021-02-19%2013-40-56.png)
+and then import db
+![mongo import DB](screenshots/Screenshot%20from%202021-02-19%2013-42-33.png)
+
+
 ## Run 
 
 run the application 
