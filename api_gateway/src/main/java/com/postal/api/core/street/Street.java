@@ -1,17 +1,17 @@
 package com.postal.api.core.street;
 
-public class Review {
+public class Street {
     private String streetname;
     private int building_number;
     private String building_name;
 
-    public Review(String streetname, int building_number, String building_name) {
+    public Street(String streetname, int building_number, String building_name) {
         this.streetname = streetname;
         this.building_number = building_number;
         this.building_name = building_name;
     }
 
-    public Review() {
+    public Street() {
         this.streetname = null;
         this.building_number = 0;
         this.building_name = null;

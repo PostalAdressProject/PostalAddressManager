@@ -22,12 +22,10 @@ public class AddressAggregate {
     private final String province;
     private final String additional_information;
     private final int postal_code;
-    private final String serviceAddress;
     private final List<Street> streetList;
     private final List<Location> locationList;
-    private final ServiceAddresses serviceAddresses;
 
-    public AddressAggregate(int addressId, String recipient_name, String business_name, String post_office_box, String rural_route_identifier, String station_informaton, String suite_apartment_number, String street_address2, String quarter_area, String neighborhood, String city_provinceCode, String city_town_locality, String locality_name, String municipality_name, String state, String province, String additional_information, int postal_code, String serviceAddress, List<Street> streetList, List<Location> locationList, ServiceAddresses serviceAddresses) {
+    public AddressAggregate(int addressId, String recipient_name, String business_name, String post_office_box, String rural_route_identifier, String station_informaton, String suite_apartment_number, String street_address2, String quarter_area, String neighborhood, String city_provinceCode, String city_town_locality, String locality_name, String municipality_name, String state, String province, String additional_information, int postal_code, List<Street> streetList, List<Location> locationList) {
         this.addressId = addressId;
         this.recipient_name = recipient_name;
         this.business_name = business_name;
@@ -46,13 +44,12 @@ public class AddressAggregate {
         this.province = province;
         this.additional_information = additional_information;
         this.postal_code = postal_code;
-        this.serviceAddress = serviceAddress;
         this.streetList = streetList;
         this.locationList = locationList;
 
     }
-    public Address() {
-        this.addressId = null;
+    public AddressAggregate() {
+        this.addressId = 0;
         this.recipient_name = null;
         this.business_name = null;
         this.post_office_box = null;
@@ -70,7 +67,6 @@ public class AddressAggregate {
         this.province = null;
         this.additional_information = null;
         this.postal_code = 0;
-        this.serviceAddress = null;
         this.streetList = null;
         this.locationList = null;
     }
@@ -146,10 +142,6 @@ public class AddressAggregate {
         return postal_code;
     }
 
-    public String getServiceAddress() {
-        return serviceAddress;
-    }
-
     public List<Street> getStreetList() {
         return streetList;
     }
@@ -158,7 +150,4 @@ public class AddressAggregate {
         return locationList;
     }
 
-    public ServiceAddresses getServiceAddresses() {
-        return serviceAddresses;
-    }
 }

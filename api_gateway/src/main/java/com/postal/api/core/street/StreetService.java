@@ -4,9 +4,9 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 
-public interface SteetService {
+public interface StreetService {
 
-    Review createStreet(@RequestBody Review body);
+    Street createStreet(@RequestBody Street body);
 
     /**
      * Sample usage: curl $HOST:$PORT/review?productId=1
@@ -17,7 +17,7 @@ public interface SteetService {
     @GetMapping(
             value = "/street",
             produces = "application/json")
-    Flux<Review> getStreets(@RequestHeader HttpHeaders headers, @RequestParam(value = "street_name", required = true) int streetId);
+    Flux<Street> getStreets(@RequestHeader HttpHeaders headers, @RequestParam(value = "street_name", required = true) int streetId);
 
 //    void deleteStreets(@RequestParam(value = "streetId", required = true)  int streetId);
 }

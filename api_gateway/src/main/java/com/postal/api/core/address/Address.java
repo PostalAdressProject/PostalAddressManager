@@ -44,7 +44,7 @@ public class Address {
     }
 
     public Address() {
-        this.addressId = null;
+        this.addressId = 0;
         this.recipient_name = null;
         this.business_name = null;
         this.post_office_box = null;

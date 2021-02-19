@@ -1,4 +1,4 @@
-package com.postal.api.core.recommendation;
+package com.postal.api.core.location;
 
 public class Location {
     private double latitude;

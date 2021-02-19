@@ -50,7 +50,7 @@ sdk install gradle 6.8.2
 
 the build gradle wrapper for `gradlew'
 ```shell script
-gradle wrapper --gradle-version 2.13
+gradle wrapper
 ````
 
 Reference Documentation
@@ -78,7 +78,9 @@ mongoimport -d "db" -c test --type json --file washington-addresses-county.geojs
 
 run the application 
 ```shell script
-gradlew bootRun
+cd api_gateway
+
+./gradlew bootRun
 ```
 
 
@@ -94,6 +96,9 @@ Greetings from Spring Boot!
 ```shell script
 Initializr service call failed using 'https://start.spring.io' - service returned  (unexpected 404 error)
 ```
+
+
+More on https://spring.io/guides/gs/spring-boot/#initial
 
 ## Contact 
 

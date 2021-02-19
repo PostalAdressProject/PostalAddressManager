@@ -6,7 +6,7 @@ import reactor.core.publisher.Mono;
 
 public interface AddressService {
 
-    Product createAddress(@RequestBody Address body);
+    Address createAddress(@RequestBody Address body);
 
     /**
      * Sample usage: curl $HOST:$PORT/address/1
@@ -17,7 +17,7 @@ public interface AddressService {
     @GetMapping(
         value    = "/address/{addressId}",
         produces = "application/json")
-    Mono<Product> getAddress(
+    Mono<Address> getAddress(
          @RequestHeader HttpHeaders headers,
          @PathVariable int addressId,
          @RequestParam(value = "delay", required = false, defaultValue = "0") int delay,

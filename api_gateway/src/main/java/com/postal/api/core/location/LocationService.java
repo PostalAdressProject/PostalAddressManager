@@ -4,9 +4,9 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 
-public interfaceLocationService {
+public interface LocationService {
 
-    Recommendation createRecommendation(@RequestBody Recommendation body);
+    Location createLocation(@RequestBody Location body);
 
     /**
      * Sample usage:
