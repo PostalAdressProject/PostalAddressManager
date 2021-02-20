@@ -2,7 +2,7 @@ package com.postal.api.core.location;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.*;
-import reactor.core.publisher.Flux;
+//import reactor.core.publisher.Flux;
 
 public interface LocationService {
 
@@ -16,10 +16,10 @@ public interface LocationService {
      * @param productId
      * @return
      */
-    @GetMapping(
-        value    = "/location",
-        produces = "application/json")
-    Flux<Location> getLocations(@RequestHeader HttpHeaders headers, @RequestParam(value = "addressId", required = true) int addressId);
+//    @GetMapping(
+//        value    = "/location",
+//        produces = "application/json")
+//    Flux<Location> getLocations(@RequestHeader HttpHeaders headers, @RequestParam(value = "addressId", required = true) int addressId);
 
 //    void deleteRecommendations(@RequestParam(value = "productId", required = true)  int productId);
 }

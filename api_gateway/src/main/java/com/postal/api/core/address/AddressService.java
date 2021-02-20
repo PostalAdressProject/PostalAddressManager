@@ -2,7 +2,7 @@ package com.postal.api.core.address;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.*;
-import reactor.core.publisher.Mono;
+//import reactor.core.publisher.Mono;
 
 public interface AddressService {
 
@@ -14,15 +14,15 @@ public interface AddressService {
      * @param productId
      * @return the product, if found, else null
      */
-    @GetMapping(
-        value    = "/address/{addressId}",
-        produces = "application/json")
-    Mono<Address> getAddress(
-         @RequestHeader HttpHeaders headers,
-         @PathVariable int addressId,
-         @RequestParam(value = "delay", required = false, defaultValue = "0") int delay,
-         @RequestParam(value = "faultPercent", required = false, defaultValue = "0") int faultPercent
-    );
+//    @GetMapping(
+//        value    = "/address/{addressId}",
+//        produces = "application/json")
+//    Mono<Address> getAddress(
+//         @RequestHeader HttpHeaders headers,
+//         @PathVariable int addressId,
+//         @RequestParam(value = "delay", required = false, defaultValue = "0") int delay,
+//         @RequestParam(value = "faultPercent", required = false, defaultValue = "0") int faultPercent
+//    );
 
 //    void deleteProduct(@PathVariable int productId);
 }

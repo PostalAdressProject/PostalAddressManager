@@ -1,4 +1,4 @@
-package com.api.springboot;
+package com.postal.api;
 
 import java.util.Arrays;
 

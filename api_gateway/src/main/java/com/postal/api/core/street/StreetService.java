@@ -2,7 +2,7 @@ package com.postal.api.core.street;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.*;
-import reactor.core.publisher.Flux;
+//import reactor.core.publisher.Flux;
 
 public interface StreetService {
 
@@ -14,10 +14,10 @@ public interface StreetService {
      * @param streetId
      * @return
      */
-    @GetMapping(
-            value = "/street",
-            produces = "application/json")
-    Flux<Street> getStreets(@RequestHeader HttpHeaders headers, @RequestParam(value = "street_name", required = true) int streetId);
+//    @GetMapping(
+//            value = "/street",
+//            produces = "application/json")
+//    Flux<Street> getStreets(@RequestHeader HttpHeaders headers, @RequestParam(value = "street_name", required = true) int streetId);
 
 //    void deleteStreets(@RequestParam(value = "streetId", required = true)  int streetId);
 }

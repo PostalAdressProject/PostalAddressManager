@@ -1,6 +1,6 @@
 # Postal Address Manager 
 
-MAde with spring boot on spring framework 
+Made with spring boot on spring framework 
 
 ## Requirnments
 
@@ -53,10 +53,6 @@ the build gradle wrapper for `gradlew'
 gradle wrapper
 ````
 
-Reference Documentation
-* [Official Gradle documentation](https://docs.gradle.org)
-* [Spring Boot Gradle Plugin Reference Guide](https://docs.spring.io/spring-boot/docs/2.4.3/gradle-plugin/reference/html/)
-* [Create an OCI image](https://docs.spring.io/spring-boot/docs/2.4.3/gradle-plugin/reference/html/#build-image)
 
 ### Additional Links
 These additional references should also help you:
@@ -76,7 +72,7 @@ mongoimport -d "db" -c test --type json --file washington-addresses-county.geojs
 ```
 
 
-If ur using inetllij u can add the mongo interaface by connecting with DB
+If ur using inetllij u can add the mongo interface by connecting with DB
 ![mongodriver](screenshots/Screenshot%20from%202021-02-19%2013-40-56.png)
 and then import db
 ![mongo import DB](screenshots/Screenshot%20from%202021-02-19%2013-42-33.png)
@@ -87,12 +83,10 @@ and then import db
 run the application 
 ```shell script
 cd api_gateway
-
 ./gradlew bootRun
 ```
 
-
-test its runing 
+test its running 
 ```shell script
 $ curl localhost:8080
 Greetings from Spring Boot!
@@ -100,15 +94,26 @@ Greetings from Spring Boot!
 
 ## Debug 
 
-**Issue 1** Broken  Spring Initializr  for spring and/or intellij
+**Issue 1** Broken  Spring Initializer  for spring and/or intellij
 ```shell script
 Initializr service call failed using 'https://start.spring.io' - service returned  (unexpected 404 error)
 ```
+## Reference Documentation
 
+**Gradle**
+* [Official Gradle documentation](https://docs.gradle.org)
+* [Spring Boot Gradle Plugin Reference Guide](https://docs.spring.io/spring-boot/docs/2.4.3/gradle-plugin/reference/html/)
+* [Create an OCI image](https://docs.spring.io/spring-boot/docs/2.4.3/gradle-plugin/reference/html/#build-image)
 
-More on https://spring.io/guides/gs/spring-boot/#initial
+**Spring**
+- [Spring REST](https://spring.io/guides/gs/rest-service/)
+- [Spring Boot](https://spring.io/guides/gs/spring-boot/#initial)
+- [Spring MVC Annotations](https://www.baeldung.com/spring-mvc-annotations)
 
+**Lombok**
+- [Autogeneration using Lombok](https://projectlombok.org/features/constructor)
 ## Contact 
+- abisht@seattleu.edu
 
 ## License 
 GPL

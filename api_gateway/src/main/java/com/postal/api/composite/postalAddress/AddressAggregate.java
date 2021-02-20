@@ -1,4 +1,4 @@
-package com.postal.api.composite.product;
+package com.postal.api.composite.postalAddress;
 
 import java.util.List;
 
