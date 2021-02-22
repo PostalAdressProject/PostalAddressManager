@@ -3,21 +3,24 @@ package com.postal.microservice.composite.address.services;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.postal.api.core.address.Address;
 import com.postal.api.core.address.AddressService;
-import com.postal.api.core.location.Location;
-import com.postal.api.core.location.LocationService;
-import com.postal.api.core.street.Street;
-import com.postal.api.core.street.StreetService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-public class ApplicationIntegration implements AddressService, LocationService, StreetService {
+//import com.postal.api.core.location.Location;
+//import com.postal.api.core.location.LocationService;
+//import com.postal.api.core.street.Street;
+//import com.postal.api.core.street.StreetService;
+
+@SpringBootApplication(scanBasePackages = "com.postal.api")
+
+public class ApplicationIntegration implements AddressService{
 
     private static final Logger LOG = LoggerFactory.getLogger(ApplicationIntegration.class);
 
@@ -25,30 +28,30 @@ public class ApplicationIntegration implements AddressService, LocationService, 
     private final ObjectMapper mapper;
 
     private final String addressServiceUrl;
-    private final String locationServiceUrl;
-    private final String streetServiceUrl;
+//    private final String locationServiceUrl;
+//    private final String streetServiceUrl;
 
     @Autowired
     public ApplicationIntegration(
             RestTemplate restTemplate,
             ObjectMapper mapper,
 
-            @Value("${app.product-service.host}") String addressServiceHost,
-            @Value("${app.product-service.port}") int addressServicePort,
+            @Value("${app.address-service.host}") String addressServiceHost,
+            @Value("${app.address-service.port}") int addressServicePort
 
-            @Value("${app.recommendation-service.host}") String locationServiceHost,
-            @Value("${app.recommendation-service.port}") int locationServicePort,
-
-            @Value("${app.review-service.host}") String streetServiceHost,
-            @Value("${app.review-service.port}") int streetServicePort
+//            @Value("${app.recommendation-service.host}") String locationServiceHost,
+//            @Value("${app.recommendation-service.port}") int locationServicePort,
+//
+//            @Value("${app.review-service.host}") String streetServiceHost,
+//            @Value("${app.review-service.port}") int streetServicePort
     ) {
 
         this.restTemplate = restTemplate;
         this.mapper = mapper;
 
         addressServiceUrl = "http://" + addressServiceHost + ":" + addressServicePort + "/product/";
-        locationServiceUrl = "http://" + locationServiceHost + ":" + locationServicePort + "/recommendation?productId=";
-        streetServiceUrl = "http://" + streetServiceHost + ":" + streetServicePort + "/review?productId=";
+//        locationServiceUrl = "http://" + locationServiceHost + ":" + locationServicePort + "/recommendation?productId=";
+//        streetServiceUrl = "http://" + streetServiceHost + ":" + streetServicePort + "/review?productId=";
     }
 
     public Address findaddress(int addressId) {
@@ -98,25 +101,4 @@ public class ApplicationIntegration implements AddressService, LocationService, 
         return null;
     }
 
-    @Override
-    public Location createLocation(Location body) {
-        return null;
-    }
-
-    @Override
-    public Street createStreet(Street body) {
-        return null;
-    }
-
-    /**
-     * Sample usage: curl $HOST:$PORT/review?productId=1
-     *
-     * @param headers
-     * @param streetName
-     * @return
-     */
-    @Override
-    public Flux<Street> getStreets(HttpHeaders headers, String streetName) {
-        return null;
-    }
 }
