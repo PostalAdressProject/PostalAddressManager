@@ -1,9 +1,10 @@
-package com.postal.microservice.composite.address;
+package com.postal.microservice.composite;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.reactive.function.client.WebClient;
 import springfox.documentation.builders.PathSelectors;
@@ -15,8 +16,8 @@ import springfox.documentation.spring.web.plugins.Docket;
 
 import static java.util.Collections.emptyList;
 
-
 @SpringBootApplication
+@ComponentScan("com.postal")
 public class Application {
 
     /**
@@ -52,7 +53,7 @@ public class Application {
 
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("se.magnus.microservices.composite.product"))
+                .apis(RequestHandlerSelectors.basePackage("com.postal.microservice.composite"))
                 .paths(PathSelectors.any())
                 .build()
                 .globalResponseMessage(RequestMethod.POST, emptyList())
@@ -69,6 +70,14 @@ public class Application {
                         emptyList()
                 ));
     }
+
+//    @Override
+//    public void addResourceHandlers(ResourceHandlerRegistry registry)
+//    {
+//        //enabling swagger-ui part for visual documentation
+//        registry.addResourceHandler("swagger-ui.html").addResourceLocations("classpath:/META-INF/resources/");
+//        registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
+//    }
 
     @Bean
     @LoadBalanced

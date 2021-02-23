@@ -1,4 +1,4 @@
-package com.postal.microservice.composite.address.services;
+package com.postal.microservice.composite.services;
 
 import com.postal.api.composite.address.AddressAggregate;
 import com.postal.api.composite.address.AddressCompositeRESTfulService;

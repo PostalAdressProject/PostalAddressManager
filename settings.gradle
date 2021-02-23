@@ -8,8 +8,7 @@
  */
 
 rootProject.name = 'PostalAddressManager'
-include 'api'
-include 'util'
-include ':microservices:ApplocationService'
-include 'address-composite-service'
+include ':api'
+include ':util'
+include ':microservices'
 

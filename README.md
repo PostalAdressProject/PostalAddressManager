@@ -69,6 +69,11 @@ that emits at most one item via the onNext signal then terminates with an onComp
 **Flux** -  A Reactive Streams Publisher with basic flow operators. Has Static factories for source generation from arbitrary callbacks types.
 Instance methods allows operational building, materialized on each subscription (Flux#subscribe(), ...) or multicasting operations (such as Flux#publish and Flux#publishNext).
 
+### Swagger 
+
+http://localhost:8080/swagger-ui/index.html
+
+
 ## Seed the DB 
 
 Mongoimport and mongoDB 
@@ -116,13 +121,12 @@ curl writer:secret@localhost:8081/oauth/token -d grant_type=password -d username
 
 run the application 
 ```shell script
-cd api_gateway
-./gradlew bootRun
+$ ./gradlew build && ./gradlew :application:bootRun
 ```
 
 test its running 
 ```shell script
-$ curl localhost:8080
+$  curl -v localhost:8080/address/anh
 Greetings from Spring Boot!
 ```
 
@@ -167,6 +171,9 @@ The following candidates were found but could not be injected:
 **Reactor**
 - [Reactor](https://projectreactor.io/docs/core/release/reference)
 - [Reactor Repo](https://github.com/reactor/reactor-core)
+
+**Swagger**
+- https://springfox.github.io/springfox/docs/snapshot/#springfox-swagger-ui
 
 ## Contact 
 - abisht@seattleu.edu
