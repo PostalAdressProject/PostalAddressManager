@@ -151,7 +151,7 @@ The following candidates were found but could not be injected:
 < 
 * Connection #0 to host localhost left intact
 ```
-**solution** TBD
+**solution**  By default, the BasicAuthenticationEntryPoint provisioned by Spring Security returns a full page for a 401 Unauthorized response 
 
 ## Reference Documentation
 

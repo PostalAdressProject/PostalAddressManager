@@ -46,7 +46,6 @@ public class AddressAggregate {
         this.postal_code = postal_code;
         this.streetList = streetList;
         this.locationList = locationList;
-
     }
     public AddressAggregate() {
         this.addressId = 0;
@@ -70,6 +69,7 @@ public class AddressAggregate {
         this.streetList = null;
         this.locationList = null;
     }
+
     public int getAddressId() {
         return addressId;
     }

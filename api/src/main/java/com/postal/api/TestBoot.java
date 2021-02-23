@@ -37,7 +37,7 @@ public class TestBoot {
             produces = "application/json")
     @ResponseBody
     public String getAddress(@PathVariable String text) {
-//        Address a = Address.builder().recipient_name(productId).build();
+//        Address a = Address.builder().recipient_name(text).build();
 //        return "I'm lost but I'm going to look for " + a.getRecipient_name();
         return "I'm lost ";
     }

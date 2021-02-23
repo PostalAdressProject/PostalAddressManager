@@ -39,15 +39,9 @@ import static java.util.logging.Level.FINE;
 public class ApplicationIntegration implements AddressService , StreetService , LocationService {
 
     private static final Logger LOG = LoggerFactory.getLogger(ApplicationIntegration.class);
-
-
     private final ObjectMapper mapper;
     private final WebClient.Builder webClientBuilder;
-
     private WebClient webClient;
-
-
-
     private final int serviceTimeoutSec;
 
 

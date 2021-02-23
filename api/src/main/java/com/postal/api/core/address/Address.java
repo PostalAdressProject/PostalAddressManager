@@ -31,4 +31,8 @@ public class Address {
     private String additional_information;
     private int postal_code;
     private String serviceAddress;
+
+    public Address(int addressId, String s, int addressId1, String serviceAddress) {
+        // TBD to be removed
+    }
 }
