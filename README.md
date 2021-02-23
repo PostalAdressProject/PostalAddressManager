@@ -71,7 +71,7 @@ Instance methods allows operational building, materialized on each subscription 
 
 ### Swagger 
 
-http://localhost:8080/swagger-ui/index.html
+http://localhost:7000/swagger-ui.html
 
 
 ## Seed the DB 
@@ -85,37 +85,10 @@ mongod -port 27017  -dbpath "db"
 mongoimport -d "db" -c test --type json --file washington-addresses-county.geojson
 ```
 
-
-If ur using inetllij u can add the mongo interface by connecting with DB
+If ur using intellij u can add the mongo interface by connecting with DB
 ![mongodriver](screenshots/Screenshot%20from%202021-02-19%2013-40-56.png)
 and then import db
 ![mongo import DB](screenshots/Screenshot%20from%202021-02-19%2013-42-33.png)
-
-## Oauth 2.0 authorization 
-
-request asks for a token with the "message:read" scope:
-
-```bash
-curl reader:secret@localhost:8081/oauth/token -d grant_type=password -d username=subject -d password=password
-```
-
-Which will respond with something like:
-
-```json
-{
-    "access_token":"eyJhbGciOiJSUzI1NiIsI...Fhq4RIVyA4ZAkC7T1aZbKAQ",
-    "token_type":"bearer",
-    "expires_in":599999999,
-    "scope":"message:read",
-    "jti":"8a425df7-f4c9-4ca4-be12-0136c3015da0"
-}
-```
-
-You can also so the same with the `writer` client:
-
-```bash
-curl writer:secret@localhost:8081/oauth/token -d grant_type=password -d username=subject -d password=password
-```
 
 ## Run 
 
@@ -126,7 +99,7 @@ $ ./gradlew build && ./gradlew :application:bootRun
 
 test its running 
 ```shell script
-$  curl -v localhost:8080/address/anh
+$  curl -v localhost:7000/address/anh
 Greetings from Spring Boot!
 ```
 
@@ -148,8 +121,37 @@ The following candidates were found but could not be injected:
 	- Bean method 'jwtDecoderByIssuerUri' in 'ReactiveOAuth2ResourceServerJwkConfiguration.JwtConfiguration' not loaded because OpenID Connect Issuer URI Condition did not find issuer-uri property
 	- Bean method 'jwtDecoderByPublicKeyValue' in 'ReactiveOAuth2ResourceServerJwkConfiguration.JwtConfiguration' not loaded because Public Key Value Condition did not find public-key-location property
 ```
-**solution** 
+**solution**  Remote the security addons if u see them , will inetgarete this via authrozation server in due time 
 
+
+**Issue 3 ** 401 on all http req
+```shell script
+ curl -v user:pass@localhost:7000/address/anh
+*   Trying 127.0.0.1...
+* TCP_NODELAY set
+* Connected to localhost (127.0.0.1) port 7000 (#0)
+* Server auth using Basic with user 'user'
+> GET /address/anh HTTP/1.1
+> Host: localhost:7000
+> Authorization: Basic dXNlcjpwYXNz
+> User-Agent: curl/7.58.0
+> Accept: */*
+> 
+< HTTP/1.1 401 Unauthorized
+* Authentication problem. Ignoring this.
+< WWW-Authenticate: Basic realm="Realm"
+< Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+< Pragma: no-cache
+< Expires: 0
+< X-Content-Type-Options: nosniff
+< X-Frame-Options: DENY
+< X-XSS-Protection: 1 ; mode=block
+< Referrer-Policy: no-referrer
+< content-length: 0
+< 
+* Connection #0 to host localhost left intact
+```
+**solution** TBD
 
 ## Reference Documentation
 

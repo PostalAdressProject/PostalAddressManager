@@ -1,5 +1,6 @@
 package com.postal.microservice.composite;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
@@ -20,18 +21,15 @@ import static java.util.Collections.emptyList;
 @ComponentScan("com.postal")
 public class Application {
 
-    /**
-     * TBD : where are these coming from
-     */
-//    @Value("${api.common.version}")           String apiVersion;
-//    @Value("${api.common.title}")             String apiTitle;
-//    @Value("${api.common.description}")       String apiDescription;
-//    @Value("${api.common.termsOfServiceUrl}") String apiTermsOfServiceUrl;
-//    @Value("${api.common.license}")           String apiLicense;
-//    @Value("${api.common.licenseUrl}")        String apiLicenseUrl;
-//    @Value("${api.common.contact.name}")      String apiContactName;
-//    @Value("${api.common.contact.url}")       String apiContactUrl;
-//    @Value("${api.common.contact.email}")     String apiContactEmail;
+    @Value("${api.common.version}")           String apiVersion;
+    @Value("${api.common.title}")             String apiTitle;
+    @Value("${api.common.description}")       String apiDescription;
+    @Value("${api.common.termsOfServiceUrl}") String apiTermsOfServiceUrl;
+    @Value("${api.common.license}")           String apiLicense;
+    @Value("${api.common.licenseUrl}")        String apiLicenseUrl;
+    @Value("${api.common.contact.name}")      String apiContactName;
+    @Value("${api.common.contact.url}")       String apiContactUrl;
+    @Value("${api.common.contact.email}")     String apiContactEmail;
 
     /**
      * Will exposed on $HOST:$PORT/swagger-ui.html
@@ -40,16 +38,6 @@ public class Application {
      */
     @Bean
     public Docket apiDocumentation() {
-
-        String apiTitle = "ergrer";
-        String apiVersion="34";
-        String apiTermsOfServiceUrl = "34t34t43";
-        String apiDescription="3rfq3ef3";
-        String apiContactName="altanai";
-        String apiContactUrl= "asomething";
-        String apiContactEmail="abisht@seattleu.edu";
-        String apiLicense = "GPL";
-        String apiLicenseUrl = "ergewrgeger";
 
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()

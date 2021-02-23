@@ -4,6 +4,8 @@ gradlew.bat
 test-em-all.bash
 gradlew
 .idea/
-util/build
+util/build/
 lib
 *.log
+microservices/build/
+microservices/build.gradle

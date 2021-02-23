@@ -14,12 +14,10 @@ import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import io.github.resilience4j.retry.annotation.Retry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpHeaders;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 //import org.springframework.cloud.stream.annotation.EnableBinding;
-//import org.springframework.cloud.stream.annotation.Output;
-//import org.springframework.messaging.MessageChannel;
+import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
@@ -31,6 +29,10 @@ import java.io.IOException;
 import java.net.URI;
 
 import static java.util.logging.Level.FINE;
+
+//import org.springframework.cloud.stream.annotation.EnableBinding;
+//import org.springframework.cloud.stream.annotation.Output;
+//import org.springframework.messaging.MessageChannel;
 
 //@EnableBinding(ApplicationIntegration.MessageSources.class)
 @Component
@@ -44,23 +46,10 @@ public class ApplicationIntegration implements AddressService , StreetService , 
 
     private WebClient webClient;
 
-    private final MessageSources messageSources;
+
 
     private final int serviceTimeoutSec;
-//
-//    public interface MessageSources {
-//
-//        String OUTPUT_PRODUCTS = "output-products";
-//
-//        @Output(OUTPUT_PRODUCTS)
-//        MessageChannel outputProducts();
-//    }
 
-
-    public interface MessageSources {
-
-        String OUTPUT_PRODUCTS = "output-products";
-    }
 
 //    private final RestTemplate restTemplate;
 //    private final ObjectMapper mapper;
@@ -70,7 +59,7 @@ public class ApplicationIntegration implements AddressService , StreetService , 
 //    private final String streetServiceUrl;
 
     @Autowired
-    public ApplicationIntegration(WebClient.Builder webClientBuilder, ObjectMapper mapper, MessageSources messageSources, @Value("${app.product-service.timeoutSec}")  int serviceTimeoutSec) {
+    public ApplicationIntegration(WebClient.Builder webClientBuilder, ObjectMapper mapper, @Value("${app.address-service.timeoutSec}")  int serviceTimeoutSec) {
 
 //            @Value("${app.address-service.host}") String addressServiceHost,
 //            @Value("${app.address-service.port}") int addressServicePort
@@ -83,10 +72,7 @@ public class ApplicationIntegration implements AddressService , StreetService , 
 
         this.webClientBuilder = webClientBuilder;
         this.mapper = mapper;
-        this.messageSources = messageSources;
         this.serviceTimeoutSec = serviceTimeoutSec;
-
-        String addressServiceHost;
         addressServiceUrl = "http://localhost:8080/address/";
 //        addressServiceUrl = "http://" + addressServiceHost + ":" + addressServicePort + "/address/";
 //        locationServiceUrl = "http://" + locationServiceHost + ":" + locationServicePort + "/recommendation?productId=";
