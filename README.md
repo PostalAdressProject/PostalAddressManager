@@ -71,8 +71,19 @@ Instance methods allows operational building, materialized on each subscription 
 
 ### Swagger 
 
-http://localhost:7000/swagger-ui.html
+URL for swagger UI - http://localhost:7000/swagger-ui/index.html
 
+Swagger home and API verbs
+![Swagger1](screenshots/swagger1.png)
+
+POST request for submit address storage in self managed records 
+![Swagger2](screenshots/swagger2.png)
+
+API Response types 
+![Swagger3](screenshots/swagger3.png)
+
+Metrics to API calls 
+![Swagger4](screenshots/swagger4.png)
 
 ## Seed the DB 
 
