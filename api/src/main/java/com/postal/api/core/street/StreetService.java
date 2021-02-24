@@ -1,15 +1,15 @@
 package com.postal.api.core.street;
 
 import org.springframework.http.HttpHeaders;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 //import reactor.core.publisher.Flux;
 
 public interface StreetService {
 
+    @PostMapping(
+            value    = "/street",
+            consumes = "application/json")
     Street createStreet(@RequestBody Street body);
 
     /**
@@ -19,9 +19,10 @@ public interface StreetService {
      * @return
      */
     @GetMapping(
-            value = "/address/street",
+            value = "/street",
             produces = "application/json")
     Flux<Street> getStreets(@RequestHeader HttpHeaders headers, @RequestParam(value = "street_name", required = true) String streetName);
 
-//    void deleteStreets(@RequestParam(value = "streetId", required = true)  int streetId);
+    @DeleteMapping(value = "/street/{streetId}")
+    void deleteStreets(@RequestParam(value = "streetId", required = true)  int streetId);
 }

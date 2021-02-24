@@ -1,10 +1,15 @@
 package com.postal.api.core.location;
 
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.http.HttpHeaders;
+import org.springframework.web.bind.annotation.*;
+import reactor.core.publisher.Flux;
 //import reactor.core.publisher.Flux;
 
 public interface LocationService {
 
+    @PostMapping(
+            value    = "/location",
+            consumes = "application/json")
     Location createLocation(@RequestBody Location body);
 
     /**
@@ -12,13 +17,14 @@ public interface LocationService {
      *
      * curl $HOST:$PORT/location?latitude=534.21&longitude=56.342312
      *
-     * @param productId
+     * @param locationId
      * @return
      */
-//    @GetMapping(
-//        value    = "/location",
-//        produces = "application/json")
-//    Flux<Location> getLocations(@RequestHeader HttpHeaders headers, @RequestParam(value = "addressId", required = true) int addressId);
+    @GetMapping(
+        value    = "/location",
+        produces = "application/json")
+    Flux<Location> getLocations(@RequestHeader HttpHeaders headers, @RequestParam(value = "location Id", required = true) int locationId);
 
-//    void deleteRecommendations(@RequestParam(value = "productId", required = true)  int productId);
+    @DeleteMapping(value = "/location/{locationId}")
+    void deleteLocations(@RequestParam(value = "location Id", required = true)  int locationId);
 }

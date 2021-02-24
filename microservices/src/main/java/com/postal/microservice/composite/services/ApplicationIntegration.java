@@ -16,9 +16,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-//import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -31,12 +31,13 @@ import java.net.URI;
 import static java.util.logging.Level.FINE;
 
 //import org.springframework.cloud.stream.annotation.EnableBinding;
+//import org.springframework.cloud.stream.annotation.EnableBinding;
 //import org.springframework.cloud.stream.annotation.Output;
 //import org.springframework.messaging.MessageChannel;
 
 //@EnableBinding(ApplicationIntegration.MessageSources.class)
 @Component
-public class ApplicationIntegration implements AddressService , StreetService , LocationService {
+public class ApplicationIntegration implements AddressService, StreetService, LocationService {
 
     private static final Logger LOG = LoggerFactory.getLogger(ApplicationIntegration.class);
     private final ObjectMapper mapper;
@@ -53,7 +54,7 @@ public class ApplicationIntegration implements AddressService , StreetService , 
 //    private final String streetServiceUrl;
 
     @Autowired
-    public ApplicationIntegration(WebClient.Builder webClientBuilder, ObjectMapper mapper, @Value("${app.address-service.timeoutSec}")  int serviceTimeoutSec) {
+    public ApplicationIntegration(WebClient.Builder webClientBuilder, ObjectMapper mapper, @Value("${app.address-service.timeoutSec}") int serviceTimeoutSec) {
 
 //            @Value("${app.address-service.host}") String addressServiceHost,
 //            @Value("${app.address-service.port}") int addressServicePort
@@ -87,14 +88,14 @@ public class ApplicationIntegration implements AddressService , StreetService , 
             return ex;
         }
 
-        WebClientResponseException wcre = (WebClientResponseException)ex;
+        WebClientResponseException wcre = (WebClientResponseException) ex;
 
         switch (wcre.getStatusCode()) {
 
             case NOT_FOUND:
                 return new NotFoundException(getErrorMessage(wcre));
 
-            case UNPROCESSABLE_ENTITY :
+            case UNPROCESSABLE_ENTITY:
                 return new InvalidInputException(getErrorMessage(wcre));
 
             default:
@@ -112,38 +113,21 @@ public class ApplicationIntegration implements AddressService , StreetService , 
         }
     }
 
-//    public Address findaddress(int addressId) {
-//
-//        try {
-//            String url = addressServiceUrl + addressId;
-//            LOG.debug("Will call getProduct API on URL: {}", url);
-//
-//            Address address = restTemplate.getForObject(url, Address.class);
-////            LOG.debug("Found a product with id: {}", address.getAddressId()); //lombal not returning getaddressId as getter
-//            LOG.debug("Found a product with id: {}",address.toString());
-//            return address;
-//
-//        } catch (HttpClientErrorException ex) {
-//
-//            LOG.warn("Got a unexpected HTTP error: {}, will rethrow it", ex.getStatusCode());
-//            LOG.warn("Error body: {}", ex.getResponseBodyAsString());
-//            throw ex;
-//
-//        }
-//    }
-
-
 
     @Override
-    public Address createAddress(Address body){
+    public Address createAddress(Address body) {
 //        messageSources.outputProducts().send(MessageBuilder.withPayload(new Event(CREATE, body.getProductId(), body)).build());
         return body;
     }
 
+    @Override
+    public Mono<Address> getAddressFormat(HttpHeaders headers, String country, int delay, int faultPercent) {
+        return null;
+    }
 
 
     /**
-     * Sample usage: curl $HOST:$PORT/address/usa
+     * Sample usage: curl $HOST:$PORT/address/6
      *
      * @param headers
      * @param addressId
@@ -166,9 +150,55 @@ public class ApplicationIntegration implements AddressService , StreetService , 
 //                .timeout(Duration.ofSeconds(productServiceTimeoutSec));
     }
 
+    /**
+     * Sample usage: curl $HOST:$PORT/address/usa
+     *
+     * @param headers
+     * @param text
+     * @param delay
+     * @param faultPercent
+     * @return the country format, if found, else null
+     */
+    @Retry(name = "address")
+    @CircuitBreaker(name = "address")
+    @Override
+    public Mono<Address> findAddress(HttpHeaders headers, String text, int delay, int faultPercent) {
+
+        try {
+            String url = addressServiceUrl + text;
+            LOG.debug("Will call getProduct API on URL: {}", url);
+
+//            Address address = restTemplate.getForObject(url, Address.class);
+//            LOG.debug("Found a product with id: {}",address.toString());
+//            return address;
+            return null;
+        } catch (HttpClientErrorException ex) {
+
+            LOG.warn("Got a unexpected HTTP error: {}, will rethrow it", ex.getStatusCode());
+            LOG.warn("Error body: {}", ex.getResponseBodyAsString());
+            throw ex;
+
+        }
+    }
+
+    @Override
+    public void deleteAddress(int addressId) {
+
+    }
+
     @Override
     public Location createLocation(Location body) {
         return null;
+    }
+
+    @Override
+    public Flux<Location> getLocations(HttpHeaders headers, int locationId) {
+        return null;
+    }
+
+    @Override
+    public void deleteLocations(int locationId) {
+
     }
 
     @Override
@@ -179,5 +209,10 @@ public class ApplicationIntegration implements AddressService , StreetService , 
     @Override
     public Flux<Street> getStreets(HttpHeaders headers, String streetName) {
         return null;
+    }
+
+    @Override
+    public void deleteStreets(int streetId) {
+
     }
 }

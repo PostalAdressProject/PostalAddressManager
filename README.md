@@ -152,6 +152,15 @@ The following candidates were found but could not be injected:
 * Connection #0 to host localhost left intact
 ```
 **solution**  By default, the BasicAuthenticationEntryPoint provisioned by Spring Security returns a full page for a 401 Unauthorized response 
+To fix this comment out the content in SecurityWebFilterChain till be setup aouth and JWT 
+and replace with 
+```shell script
+http
+    .authorizeExchange()
+    .pathMatchers("/**").permitAll()
+    .anyExchange().authenticated();
+```
+
 
 ## Reference Documentation
 

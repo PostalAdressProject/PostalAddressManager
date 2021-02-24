@@ -38,7 +38,7 @@ public class ApplicationServiceImpl  implements AddressCompositeRESTfulService {
 
 
     /**
-     * Sample usage: curl $HOST:$PORT/product-composite/1
+     * Sample usage: curl $HOST:$PORT/address/search/1
      *
      * @param requestHeaders
      * @param addressId
@@ -47,18 +47,67 @@ public class ApplicationServiceImpl  implements AddressCompositeRESTfulService {
      * @return the composite product info, if found, else null
      */
     @Override
-    public Mono<AddressAggregate> getCompositeAddress(HttpHeaders requestHeaders, int addressId, int delay, int faultPercent) {
-        LOG.info("Will get composite product info for product.id={}", addressId);
+    public Mono<AddressAggregate> getCompositeAddressById(HttpHeaders requestHeaders, int addressId, int delay, int faultPercent) {
+        LOG.info("Will get composite address info for address.id={}", addressId);
 
         HttpHeaders headers = getHeaders(requestHeaders, "X-group");
 
         return Mono.zip(
-                values-> ccreateAddressAggregate((SecurityContext) values[0], (Address) values[1],  serviceUtil.getServiceAddress()),
+                values-> createAddressAggregate((SecurityContext) values[0], (Address) values[1],  serviceUtil.getServiceAddress()),
                 ReactiveSecurityContextHolder.getContext().defaultIfEmpty(sc),
                 integration.getAddress(headers, addressId, delay, faultPercent)
                         .onErrorReturn(CallNotPermittedException.class, getAddressFallbackValue(addressId)))
                 .doOnError(ex -> LOG.warn("getCompositeAddress failed: {}", ex.toString()))
                 .log(null, FINE);
+    }
+
+    /**
+     * Sample usage: curl $HOST:$PORT/address/search/Murphyapartments
+     *
+     * @param requestHeaders
+     * @param addresstext
+     * @param delay
+     * @param faultPercent
+     * @return the composite product info, if found, else null
+     */
+    @Override
+    public Mono<AddressAggregate> getCompositeAddress(HttpHeaders requestHeaders, String addresstext, int delay, int faultPercent) {
+        LOG.info("Will get composite address info for address with text ={}", addresstext);
+
+        HttpHeaders headers = getHeaders(requestHeaders, "X-group");
+
+        return Mono.zip(
+                values-> createAddressAggregate((SecurityContext) values[0], (Address) values[1],  serviceUtil.getServiceAddress()),
+                ReactiveSecurityContextHolder.getContext().defaultIfEmpty(sc),
+                integration.findAddress(headers, addresstext, delay, faultPercent))
+                .doOnError(ex -> LOG.warn("getCompositeAddress failed: {}", ex.toString()))
+                .log(null, FINE);
+    }
+
+    @Override
+    public Mono<Void> createCompositeAddress(AddressAggregate body) {
+        try {
+            Address addobj = new Address( body.getAddressId(),  body.getState(), body.getPostal_code(),body.getNeighborhood());
+            integration.createAddress(addobj);
+
+            // TBD make entry on l and s
+
+        }catch(RuntimeException re){
+            LOG.warn("createCompositeProduct failed: {}", re.toString());
+            throw re;
+        }
+
+        return null;
+    }
+
+    @Override
+    public Mono<Void> deleteCompositeAddress(int AddressId) {
+        LOG.debug("deleteCompositeProduct: Deletes a product aggregate for Id: {}", AddressId);
+        // TBD : find the Lid and sid from aid
+        integration.deleteAddress(AddressId);
+        integration.deleteLocations(AddressId);
+        integration.deleteStreets(AddressId);
+        return null;
     }
 
     private HttpHeaders getHeaders(HttpHeaders requesthHeaders, String... headers) {
@@ -84,10 +133,10 @@ public class ApplicationServiceImpl  implements AddressCompositeRESTfulService {
      */
     private Address getAddressFallbackValue(int addressId) {
 
-        if (addressId < 1) throw new InvalidInputException("Invalid productId: " + addressId);
+        if (addressId < 1) throw new InvalidInputException("Invalid Id: " + addressId);
 
         if (addressId == 13) {
-            String errMsg = "Product Id: " + addressId + " not found in fallback cache!";
+            String errMsg = " Id: " + addressId + " not found in fallback cache!";
             LOG.warn(errMsg);
             throw new NotFoundException(errMsg);
         }
@@ -95,13 +144,14 @@ public class ApplicationServiceImpl  implements AddressCompositeRESTfulService {
         return new Address(addressId, "Fallback product" + addressId, addressId, serviceUtil.getServiceAddress());
     }
 
-    private AddressAggregate ccreateAddressAggregate(SecurityContext sc, Address address, String serviceAddress) {
-
+    private AddressAggregate createAddressAggregate(SecurityContext sc, Address address, String serviceAddress) {
 //        logAuthorizationInfo(sc);
-        int addressId = 2324;//address.getAddressId();
-
+        int addressId = 2324;
+//        address.getAddressId();
         return new AddressAggregate();
     }
+
+
 
 //    private void logAuthorizationInfo(Jwt jwt) {
 //        if (jwt == null) {
