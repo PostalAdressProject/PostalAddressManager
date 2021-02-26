@@ -1,10 +1,16 @@
 package com.postal.api.composite.address;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.List;
 
 public class AddressAggregate {
 
     private final int addressId;
+
+    @NotNull
+    @Size(min=2, max=30)
     private final String recipient_name;
     private final String business_name;
     private final String post_office_box;
@@ -21,6 +27,9 @@ public class AddressAggregate {
     private final String state;
     private final String province;
     private final String additional_information;
+
+    @NotNull
+    @Min(100)
     private final int postal_code;
     private final List<Street> streetList;
     private final List<Location> locationList;
