@@ -31,10 +31,13 @@ public class AddressAggregate {
     @NotNull
     @Min(100)
     private final int postal_code;
+
+    private final String country;
+
     private final List<Street> streetList;
     private final List<Location> locationList;
 
-    public AddressAggregate(int addressId, String recipient_name, String business_name, String post_office_box, String rural_route_identifier, String station_informaton, String suite_apartment_number, String street_address2, String quarter_area, String neighborhood, String city_provinceCode, String city_town_locality, String locality_name, String municipality_name, String state, String province, String additional_information, int postal_code, List<Street> streetList, List<Location> locationList) {
+    public AddressAggregate(int addressId, String recipient_name, String business_name, String post_office_box, String rural_route_identifier, String station_informaton, String suite_apartment_number, String street_address2, String quarter_area, String neighborhood, String city_provinceCode, String city_town_locality, String locality_name, String municipality_name, String state, String province, String additional_information, String country, int postal_code, List<Street> streetList, List<Location> locationList) {
         this.addressId = addressId;
         this.recipient_name = recipient_name;
         this.business_name = business_name;
@@ -55,8 +58,10 @@ public class AddressAggregate {
         this.postal_code = postal_code;
         this.streetList = streetList;
         this.locationList = locationList;
+        this.country = country;
     }
-    public AddressAggregate() {
+    public AddressAggregate(String country) {
+        this.country = null;
         this.addressId = 0;
         this.recipient_name = null;
         this.business_name = null;

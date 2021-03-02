@@ -87,14 +87,27 @@ Metrics to API calls
 
 ## Seed the DB 
 
-Mongoimport and mongoDB 
+Mongoimport and mongoDB manually
 ```shell script
 mkdir db
-
 mongod -port 27017  -dbpath "db"
-
 mongoimport -d "db" -c test --type json --file washington-addresses-county.geojson
 ```
+
+Using script 
+```shell
+cd dbpopulation 
+sh setupdb.sh
+```
+
+To see the mongo db from cli 
+```shell
+mongo --host localhost:27017
+use address
+db.us.find().limit(5).pretty()
+```
+
+
 
 If ur using intellij u can add the mongo interface by connecting with DB
 ![mongodriver](screenshots/Screenshot%20from%202021-02-19%2013-40-56.png)

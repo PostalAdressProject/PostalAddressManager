@@ -148,7 +148,7 @@ public class ApplicationServiceImpl  implements AddressCompositeRESTfulService {
 //        logAuthorizationInfo(sc);
         int addressId = 2324;
 //        address.getAddressId();
-        return new AddressAggregate();
+        return new AddressAggregate(country);
     }
 
 
