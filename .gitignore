@@ -8,9 +8,6 @@ util/build/
 lib
 *.log
 microservices/build/
-microservices/build.gradle
 *.class
 dao/build/
-dao/build.gradle
-model/build.gradle
 model/build/
