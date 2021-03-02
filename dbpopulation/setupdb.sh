@@ -13,14 +13,13 @@ cd address
 
 fun1 () {
     echo "run function1 $@"
-    cd $1
+    cd $1 $2
     # string replace gives bad substitution error
     # result=${str//$find/$replace}
     for i in *.csv;
     do
       echo ${i%.*};
-      #      --drop
-      mongoimport --host=localhost --port=27017 --db=address --collection="address" --type=csv --file=$i --headerline --mode=upsert;
+      mongoimport --host=localhost --port=27017 --db=AddressAggregate --collection=$2 --type=csv --file=$i --headerline --mode=upsert --drop;
     done
     echo "end of import."
     cd ../../
@@ -33,32 +32,8 @@ for f in *; do
             if [ -d "$sf" ]; then
                 # $f is a sub directory
                 echo "$f""_""$sf"
-                fun1 $sf
+                fun1 $sf $f
             fi
         done
     fi
 done
-
-
-
-
-#for dir; do
-#  echo "dir."
-#  for f in "$dir"/*; do
-#    fun1 "$f"
-#  done
-#done
-
-#for d in */ ; do
-#    for sd in */ ; do
-#        echo "$d""_""$sd"
-#        done
-#done
-
-
-#cd us/wa
-#pwd | awk -F/ '{print $NF}'
-##fun1 $NF
-
-# bulk import not giving the di structure
-#mongorestore --host=localhost --port=27017 --nsInclude=address.* address/
