@@ -15,12 +15,12 @@ public class AppConfig {
     }
 
     public @Bean
-    MongoTemplate mongoTemplate() {
-        return new MongoTemplate(mongoClient(), "address");
-    }
 //    MongoTemplate mongoTemplate() {
-//        return new MongoTemplate(mongoClient(), "AddressAggregate");
+//        return new MongoTemplate(mongoClient(), "address");
 //    }
+    MongoTemplate mongoTemplate() {
+        return new MongoTemplate(mongoClient(), "AddressAggregate");
+    }
 
     public @Bean
     ObjectMapper getObjectMapper() {

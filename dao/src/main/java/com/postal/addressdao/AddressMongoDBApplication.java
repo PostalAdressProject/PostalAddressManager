@@ -14,9 +14,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 @SpringBootApplication
-@ComponentScan({"com.postal.address.accessor", "com.postal.address.repository",
-        "com.postal.address.configuration"})
-@EnableMongoRepositories("com.postal.address.repository")
+@ComponentScan({"com.postal.addressdao.accessor", "com.postal.addressdao.repository",
+        "com.postal.addressdao.configuration"})
+@EnableMongoRepositories("com.postal.addressdao.repository")
 @EnableAutoConfiguration
 public class AddressMongoDBApplication implements CommandLineRunner {
 
