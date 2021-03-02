@@ -104,6 +104,7 @@ To see the mongo db from cli
 ```shell
 mongo --host localhost:27017
 use address
+db.us.findOne()
 db.us.find().limit(5).pretty()
 ```
 

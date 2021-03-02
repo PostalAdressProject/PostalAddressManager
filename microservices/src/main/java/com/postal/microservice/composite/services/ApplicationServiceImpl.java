@@ -1,8 +1,8 @@
 package com.postal.microservice.composite.services;
 
-import com.postal.api.composite.address.AddressAggregate;
-import com.postal.api.composite.address.AddressCompositeRESTfulService;
-import com.postal.api.core.address.Address;
+import com.postal.model.composite.address.AddressAggregate;
+import com.postal.model.composite.address.AddressCompositeRESTfulService;
+import com.postal.model.core.address.Address;
 import com.postal.util.exceptions.InvalidInputException;
 import com.postal.util.exceptions.NotFoundException;
 import com.postal.util.http.ServiceUtil;
@@ -146,9 +146,9 @@ public class ApplicationServiceImpl  implements AddressCompositeRESTfulService {
 
     private AddressAggregate createAddressAggregate(SecurityContext sc, Address address, String serviceAddress) {
 //        logAuthorizationInfo(sc);
-        int addressId = 2324;
-//        address.getAddressId();
-        return new AddressAggregate(country);
+        String country = "uk";
+        return  new AddressAggregate(country); // trmp
+//        return new AddressAggregate(country);
     }
 
 

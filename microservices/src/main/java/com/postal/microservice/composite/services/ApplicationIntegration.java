@@ -1,12 +1,12 @@
 package com.postal.microservice.composite.services;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.postal.api.core.address.Address;
-import com.postal.api.core.address.AddressService;
-import com.postal.api.core.location.Location;
-import com.postal.api.core.location.LocationService;
-import com.postal.api.core.street.Street;
-import com.postal.api.core.street.StreetService;
+import com.postal.model.core.address.Address;
+import com.postal.model.core.address.AddressService;
+import com.postal.model.core.location.Location;
+import com.postal.model.core.location.LocationService;
+import com.postal.model.core.street.Street;
+import com.postal.model.core.street.StreetService;
 import com.postal.util.exceptions.InvalidInputException;
 import com.postal.util.exceptions.NotFoundException;
 import com.postal.util.http.HttpErrorInfo;
