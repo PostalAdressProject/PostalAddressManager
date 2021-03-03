@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 import org.apache.commons.lang3.StringUtils;
 import org.bson.conversions.Bson;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,9 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class AddressRepositoryImpl implements AddressRepository {
+
+	private static final String REGEX = "^{value}";
+	private static final String REPLACE = "{value}";
 
 	@Autowired
 	private MongoTemplate mongoTemplate;
@@ -44,17 +48,21 @@ public class AddressRepositoryImpl implements AddressRepository {
 			throw new IllegalArgumentException("Country Name is not supported");
 		}
 		final List<org.bson.Document> results = new ArrayList<>();
+		final Bson filter = Filters.and(getFiltersForPrefix(fieldsMap));
 		mongoTemplate.getCollection(collectionName)
-			.find(Filters.and(getFilters(fieldsMap))).into(results);
+			.find(filter).into(results);
 		return getAddressFromDocument(results);
 	}
 
-	private Iterable<Bson> getFilters(final Map<Field, String> fieldsMap) {
+	private Iterable<Bson> getFiltersForPrefix(final Map<Field, String> fieldsMap) {
 		final List<Bson> filters = new ArrayList<>();
 		final Iterator<Field> keyItr = fieldsMap.keySet().iterator();
 		while (keyItr.hasNext()) {
 			final Field field = keyItr.next();
-			filters.add(Filters.eq(field.toString(), fieldsMap.get(field)));
+			final String formattedRegex = StringUtils
+				.replace(REGEX, REPLACE, fieldsMap.get(field));
+			final Pattern regex = Pattern.compile(formattedRegex, Pattern.CASE_INSENSITIVE);
+			filters.add(Filters.eq(field.toString(), regex));
 		}
 		return filters;
 	}

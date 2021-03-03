@@ -31,8 +31,8 @@ public class AddressMongoDBApplication implements CommandLineRunner {
 	@Override
 	public void run(final String... args) throws Exception {
 		final Map<Field, String> fieldStringMap = new HashMap<>();
-		fieldStringMap.put(Field.STREET, "39a Street");
-		//fieldStringMap.put(Field.NUMBER, "41903 90378");
+		fieldStringMap.put(Field.STREET, "39a");
+		//fieldStringMap.put(Field.NUMBER, "41903");
 		final List<Address> addressList = addressAccessor
 			.findAddressByCountry("United Arab Emirates", fieldStringMap);
 		System.exit(0);
