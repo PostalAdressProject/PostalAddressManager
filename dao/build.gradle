@@ -1,9 +1,11 @@
 plugins {
+    id 'org.springframework.boot' version '2.4.3'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
     id 'java'
 }
-
-version 'unspecified'
-
+apply plugin: 'eclipse'
+version = '1.0.0-SNAPSHOT'
+group = 'com.postal.address'
 sourceCompatibility = 1.8
 
 repositories {

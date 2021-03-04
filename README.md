@@ -86,11 +86,13 @@ Metrics to API calls
 ![Swagger4](screenshots/swagger4.png)
 
 ## Seed the DB 
-
-Mongoimport and mongoDB manually
-```shell script
+Make sure the db sever is runing
+```shell
 mkdir db
 mongod -port 27017  -dbpath "db"
+```
+Mongoimport and mongoDB manually
+```shell script
 mongoimport -d "db" -c test --type json --file washington-addresses-county.geojson
 ```
 

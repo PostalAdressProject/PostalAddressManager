@@ -3,9 +3,6 @@ package com.postal.addressdao;
 import com.postal.addressdao.accessor.AddressAccessor;
 import com.postal.model.enums.Field;
 import com.postal.model.models.Address;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -14,10 +11,14 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 @SpringBootApplication
 @ComponentScan({"com.postal.addressdao.accessor", "com.postal.addressdao.repository",
 	"com.postal.addressdao.configuration"})
-@EnableMongoRepositories("com.postal.address.repository")
+@EnableMongoRepositories("com.postal.addressdao.repository")
 @EnableAutoConfiguration
 public class AddressMongoDBApplication implements CommandLineRunner {
 
@@ -31,10 +32,12 @@ public class AddressMongoDBApplication implements CommandLineRunner {
 	@Override
 	public void run(final String... args) throws Exception {
 		final Map<Field, String> fieldStringMap = new HashMap<>();
-		fieldStringMap.put(Field.STREET, "39a Street");
+		fieldStringMap.put(Field.STREET, "3a Street");
+		//fieldStringMap.put(Field.STREET, "39a Street");
 		//fieldStringMap.put(Field.NUMBER, "41903 90378");
 		final List<Address> addressList = addressAccessor
 			.findAddressByCountry("United Arab Emirates", fieldStringMap);
+//		System.out.println(addressList.getRegion());
 		System.exit(0);
 	}
 }
