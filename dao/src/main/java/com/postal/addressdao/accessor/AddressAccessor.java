@@ -27,4 +27,16 @@ public class AddressAccessor {
             throw new AddressDataAccessException(e.getMessage(), e);
         }
     }
+
+    public List<Address> findAddressAcrossCountries(final Map<Field, String> fieldMap) throws AddressDataAccessException {
+        try {
+            return addressRepository.findAddressAcrossCountries(fieldMap);
+        } catch (final IllegalArgumentException e) {
+            System.out.println("Illegal argument exception occurred:" + e.getMessage());
+            throw new IllegalArgumentException(e);
+        } catch (final Exception e) {
+            System.out.println("Exception occurred:" + e.getMessage());
+            throw new AddressDataAccessException(e.getMessage(), e);
+        }
+    }
 }
