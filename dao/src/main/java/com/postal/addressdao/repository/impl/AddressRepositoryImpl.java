@@ -9,11 +9,12 @@ import com.postal.addressdao.utils.AddressCodeUtils;
 import com.postal.model.enums.Field;
 import com.postal.model.models.Address;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.regex.Pattern;
+import java.util.Map.Entry;
+import java.util.Iterator;
+
+import com.postal.model.models.Country;
 import org.apache.commons.lang3.StringUtils;
 import org.bson.conversions.Bson;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,6 +53,24 @@ public class AddressRepositoryImpl implements AddressRepository {
 		mongoTemplate.getCollection(collectionName)
 			.find(filter).into(results);
 		return getAddressFromDocument(results);
+	}
+
+	public List<Address> findAddressAcrossCountries(final Map<Field, String> fieldsMap) throws IOException{
+		Map<String, String> allCountryNames =AddressCodeUtils.getAllCountryCodes();
+        Iterator<Entry<String, String>> iterator = allCountryNames.entrySet().iterator();
+		List<Address> result = new ArrayList<>();
+		int matchCount = 0;
+        while(iterator.hasNext()) {
+			Map.Entry<String, String> set = iterator.next();
+			String countryName = set.getKey();
+			List<Address> matches = findAddressByCountry(countryName, fieldsMap);
+			for(Address address : matches) {
+				result.add(address);
+				matchCount++;
+				if(matchCount == 5) return result;
+			}
+		}
+		return result;
 	}
 
 	private Iterable<Bson> getFiltersForPrefix(final Map<Field, String> fieldsMap) {

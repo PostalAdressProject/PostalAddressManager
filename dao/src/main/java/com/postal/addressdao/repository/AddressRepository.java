@@ -14,6 +14,6 @@ public interface AddressRepository {
     List<Address> findAddressByCountry(final String countryName, final Map<Field, String> fieldsMap)
             throws IOException;
 
-    List<Address> findAddressAcrossCountry(final Map<Field, String> fieldsMap)
+    List<Address> findAddressAcrossCountries(final Map<Field, String> fieldsMap)
             throws IOException;
 }

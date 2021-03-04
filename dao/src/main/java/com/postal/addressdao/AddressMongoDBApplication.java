@@ -17,8 +17,8 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 @SpringBootApplication
 @ComponentScan({"com.postal.addressdao.accessor", "com.postal.addressdao.repository",
 	"com.postal.addressdao.configuration"})
-@EnableMongoRepositories("com.postal.address.repository")
-@EnableAutoConfiguration
+@EnableMongoRepositories("com.postal.addressdao.repository")
+//@EnableAutoConfiguration
 public class AddressMongoDBApplication implements CommandLineRunner {
 
 	@Autowired
@@ -31,10 +31,10 @@ public class AddressMongoDBApplication implements CommandLineRunner {
 	@Override
 	public void run(final String... args) throws Exception {
 		final Map<Field, String> fieldStringMap = new HashMap<>();
-		fieldStringMap.put(Field.STREET, "39a");
+		fieldStringMap.put(Field.STREET, "EKLUTNA VILLAGE RD");
 		//fieldStringMap.put(Field.NUMBER, "41903");
 		final List<Address> addressList = addressAccessor
-			.findAddressByCountry("United Arab Emirates", fieldStringMap);
+			.findAddressAcrossCountries(fieldStringMap);
 		System.exit(0);
 	}
 }
