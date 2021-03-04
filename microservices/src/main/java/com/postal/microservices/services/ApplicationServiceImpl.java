@@ -96,7 +96,7 @@ public class ApplicationServiceImpl implements AddressCompositeRESTfulService {
         } catch (AddressDataAccessException e) {
             e.printStackTrace();
         }
-
+        return null;
 //        return Mono.zip(
 //                values -> createAddressAggregate((SecurityContext) values[0], (Address) values[1]),
 //                ReactiveSecurityContextHolder.getContext().defaultIfEmpty(sc),
