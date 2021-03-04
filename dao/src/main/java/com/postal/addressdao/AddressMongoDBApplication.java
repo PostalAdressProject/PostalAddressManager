@@ -19,7 +19,7 @@ import java.util.Map;
 @ComponentScan({"com.postal.addressdao.accessor", "com.postal.addressdao.repository",
 	"com.postal.addressdao.configuration"})
 @EnableMongoRepositories("com.postal.addressdao.repository")
-@EnableAutoConfiguration
+//@EnableAutoConfiguration
 public class AddressMongoDBApplication implements CommandLineRunner {
 
 	@Autowired
@@ -37,7 +37,8 @@ public class AddressMongoDBApplication implements CommandLineRunner {
 		//fieldStringMap.put(Field.NUMBER, "41903 90378");
 		final List<Address> addressList = addressAccessor
 			.findAddressByCountry("United Arab Emirates", fieldStringMap);
-//		System.out.println(addressList.getRegion());
+//		System.out.println(addressList.get(0).getRegion());
+		System.out.println(addressList.get(0).toString());
 		System.exit(0);
 	}
 }

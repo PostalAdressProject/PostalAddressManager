@@ -1,11 +1,14 @@
 package com.postal.microservice.composite.services;
 
+import com.postal.addressdao.exception.AddressDataAccessException;
 import com.postal.model.composite.address.AddressAggregate;
 import com.postal.model.composite.address.AddressCompositeRESTfulService;
 import com.postal.model.core.address.Address;
+import com.postal.model.enums.Field;
 import com.postal.util.exceptions.InvalidInputException;
 import com.postal.util.exceptions.NotFoundException;
 import com.postal.util.http.ServiceUtil;
+import com.postal.addressdao.accessor.AddressAccessor;
 import io.github.resilience4j.circuitbreaker.CallNotPermittedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,9 +20,13 @@ import org.springframework.security.core.context.SecurityContextImpl;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Mono;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Random;
 
 import static java.util.logging.Level.FINE;
+import static reactor.core.publisher.Mono.error;
 
 @RestController
 public class ApplicationServiceImpl  implements AddressCompositeRESTfulService {
@@ -31,9 +38,37 @@ public class ApplicationServiceImpl  implements AddressCompositeRESTfulService {
     private  ApplicationIntegration integration;
 
     @Autowired
+    AddressAccessor addressAccessor;
+
+    @Autowired
     public ApplicationServiceImpl(ServiceUtil serviceUtil, ApplicationIntegration integration) {
         this.serviceUtil = serviceUtil;
         this.integration = integration;
+    }
+
+    public Mono<Address> getAddress(HttpHeaders headers, int productId, int delay, int faultPercent) {
+
+        if (productId < 1) throw new InvalidInputException("Invalid productId: " + productId);
+
+        if (delay > 0) simulateDelay(delay);
+
+        if (faultPercent > 0) throwErrorIfBadLuck(faultPercent);
+
+        LOG.info("Will get Address info for id={}", productId);
+
+
+        final Map<Field, String> fieldStringMap = new HashMap<>();
+        fieldStringMap.put(Field.STREET, "3a Street");
+        final List<com.postal.model.models.Address> addressList = addressAccessor
+                .findAddressByCountry("United Arab Emirates", fieldStringMap);
+        System.out.println(addressList.get(0).getCity());
+        System.exit(0);
+
+        return repository.findByProductId(productId)
+                .switchIfEmpty(error(new NotFoundException("No product found for productId: " + productId)))
+                .log(null, FINE)
+                .map(e -> mapper.entityToApi(e))
+                .map(e -> {e.setServiceAddress(serviceUtil.getServiceAddress()); return e;});
     }
 
 
@@ -71,7 +106,7 @@ public class ApplicationServiceImpl  implements AddressCompositeRESTfulService {
      * @return the composite product info, if found, else null
      */
     @Override
-    public Mono<AddressAggregate> getCompositeAddress(HttpHeaders requestHeaders, String addresstext, int delay, int faultPercent) {
+    public Mono<AddressAggregate> getCompositeAddress(HttpHeaders requestHeaders, String addresstext, int delay, int faultPercent) throws AddressDataAccessException {
         LOG.info("Will get composite address info for address with text ={}", addresstext);
 
         HttpHeaders headers = getHeaders(requestHeaders, "X-group");
@@ -152,7 +187,31 @@ public class ApplicationServiceImpl  implements AddressCompositeRESTfulService {
     }
 
 
+    private void simulateDelay(int delay) {
+        LOG.debug("Sleeping for {} seconds...", delay);
+        try {Thread.sleep(delay * 1000);} catch (InterruptedException e) {}
+        LOG.debug("Moving on...");
+    }
 
+    private void throwErrorIfBadLuck(int faultPercent) {
+        int randomThreshold = getRandomNumber(1, 100);
+        if (faultPercent < randomThreshold) {
+            LOG.debug("We got lucky, no error occurred, {} < {}", faultPercent, randomThreshold);
+        } else {
+            LOG.warn("Bad luck, an error occurred, {} >= {}", faultPercent, randomThreshold);
+            throw new RuntimeException("Something went wrong...");
+        }
+    }
+
+    private final Random randomNumberGenerator = new Random();
+    private int getRandomNumber(int min, int max) {
+
+        if (max < min) {
+            throw new RuntimeException("Max must be greater than min");
+        }
+
+        return randomNumberGenerator.nextInt((max - min) + 1) + min;
+    }
 //    private void logAuthorizationInfo(Jwt jwt) {
 //        if (jwt == null) {
 //            LOG.warn("No JWT supplied, running tests are we?");
