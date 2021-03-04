@@ -1,4 +1,4 @@
-package com.postal.microservice.composite;
+package com.postal.microservices;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
@@ -20,6 +20,8 @@ import java.util.Arrays;
 import static java.util.Collections.emptyList;
 
 @SpringBootApplication
+//@ComponentScan({"com.postal.addressdao.accessor", "com.postal.addressdao.repository",
+//        "com.postal.addressdao.configuration"})
 @ComponentScan("com.postal")
 public class Application {
 

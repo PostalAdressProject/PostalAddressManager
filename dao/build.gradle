@@ -17,7 +17,7 @@ plugins {
 }
 apply plugin: 'eclipse'
 version = '1.0.0-SNAPSHOT'
-group = 'com.postal.address'
+group = 'com.postal.addressdao'
 sourceCompatibility = 1.8
 
 repositories {

@@ -1,14 +1,14 @@
-package com.postal.microservice.composite.services;
+package com.postal.microservices.services;
 
+import com.postal.addressdao.accessor.AddressAccessor;
 import com.postal.addressdao.exception.AddressDataAccessException;
-import com.postal.model.composite.address.AddressAggregate;
-import com.postal.model.composite.address.AddressCompositeRESTfulService;
-import com.postal.model.core.address.Address;
-import com.postal.model.enums.Field;
+import com.postal.apil.composite.AddressAggregate;
+import com.postal.apil.composite.AddressCompositeRESTfulService;
+import com.postal.apil.core.address.Address;
+import com.postal.apil.enums.Field;
 import com.postal.util.exceptions.InvalidInputException;
 import com.postal.util.exceptions.NotFoundException;
 import com.postal.util.http.ServiceUtil;
-import com.postal.addressdao.accessor.AddressAccessor;
 import io.github.resilience4j.circuitbreaker.CallNotPermittedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,19 +26,15 @@ import java.util.Map;
 import java.util.Random;
 
 import static java.util.logging.Level.FINE;
-import static reactor.core.publisher.Mono.error;
 
 @RestController
-public class ApplicationServiceImpl  implements AddressCompositeRESTfulService {
+public class ApplicationServiceImpl implements AddressCompositeRESTfulService {
 
     private static final Logger LOG = LoggerFactory.getLogger(ApplicationServiceImpl.class);
     private final SecurityContext sc = new SecurityContextImpl();
 
     private final ServiceUtil serviceUtil;
-    private  ApplicationIntegration integration;
-
-    @Autowired
-    AddressAccessor addressAccessor;
+    private final ApplicationIntegration integration;
 
     @Autowired
     public ApplicationServiceImpl(ServiceUtil serviceUtil, ApplicationIntegration integration) {
@@ -46,34 +42,9 @@ public class ApplicationServiceImpl  implements AddressCompositeRESTfulService {
         this.integration = integration;
     }
 
-    public Mono<Address> getAddress(HttpHeaders headers, int productId, int delay, int faultPercent) {
-
-        if (productId < 1) throw new InvalidInputException("Invalid productId: " + productId);
-
-        if (delay > 0) simulateDelay(delay);
-
-        if (faultPercent > 0) throwErrorIfBadLuck(faultPercent);
-
-        LOG.info("Will get Address info for id={}", productId);
-
-
-        final Map<Field, String> fieldStringMap = new HashMap<>();
-        fieldStringMap.put(Field.STREET, "3a Street");
-        final List<com.postal.model.models.Address> addressList = addressAccessor
-                .findAddressByCountry("United Arab Emirates", fieldStringMap);
-        System.out.println(addressList.get(0).getCity());
-        System.exit(0);
-
-        return repository.findByProductId(productId)
-                .switchIfEmpty(error(new NotFoundException("No product found for productId: " + productId)))
-                .log(null, FINE)
-                .map(e -> mapper.entityToApi(e))
-                .map(e -> {e.setServiceAddress(serviceUtil.getServiceAddress()); return e;});
-    }
-
 
     /**
-     * Sample usage: curl $HOST:$PORT/address/search/1
+     * Sample usage: curl $HOST:$PORT/address/1
      *
      * @param requestHeaders
      * @param addressId
@@ -83,12 +54,12 @@ public class ApplicationServiceImpl  implements AddressCompositeRESTfulService {
      */
     @Override
     public Mono<AddressAggregate> getCompositeAddressById(HttpHeaders requestHeaders, int addressId, int delay, int faultPercent) {
-        LOG.info("Will get composite address info for address.id={}", addressId);
+        LOG.info("Will get composite-address info for address.id={}", addressId);
 
         HttpHeaders headers = getHeaders(requestHeaders, "X-group");
 
         return Mono.zip(
-                values-> createAddressAggregate((SecurityContext) values[0], (Address) values[1],  serviceUtil.getServiceAddress()),
+                values -> createAddressAggregate((SecurityContext) values[0], (Address) values[1]),
                 ReactiveSecurityContextHolder.getContext().defaultIfEmpty(sc),
                 integration.getAddress(headers, addressId, delay, faultPercent)
                         .onErrorReturn(CallNotPermittedException.class, getAddressFallbackValue(addressId)))
@@ -103,31 +74,46 @@ public class ApplicationServiceImpl  implements AddressCompositeRESTfulService {
      * @param addresstext
      * @param delay
      * @param faultPercent
-     * @return the composite product info, if found, else null
+     * @return the composite info, if found, else null
      */
     @Override
-    public Mono<AddressAggregate> getCompositeAddress(HttpHeaders requestHeaders, String addresstext, int delay, int faultPercent) throws AddressDataAccessException {
+    public Mono<AddressAggregate> searchCompositeAddress(HttpHeaders requestHeaders, String addresstext, int delay, int faultPercent) {
         LOG.info("Will get composite address info for address with text ={}", addresstext);
-
         HttpHeaders headers = getHeaders(requestHeaders, "X-group");
+        if (addresstext==null) throw new InvalidInputException("Invalid addresstext: ");
+        if (delay > 0) simulateDelay(delay);
+        if (faultPercent > 0) throwErrorIfBadLuck(faultPercent);
+        AddressAccessor addressAccessor = new AddressAccessor();
+        final Map<Field, String> fieldStringMap = new HashMap<>();
+		fieldStringMap.put(Field.STREET, "3a Street");
+        final List<com.postal.apil.models.Address> addressList;
+        try {
+            addressList = addressAccessor
+                .findAddressByCountry("United Arab Emirates", fieldStringMap);
+            //		System.out.println(addressList.get(0).getRegion());
+            System.out.println(addressList.get(0).toString());
+            return (Mono<AddressAggregate>) addressList;
+        } catch (AddressDataAccessException e) {
+            e.printStackTrace();
+        }
 
-        return Mono.zip(
-                values-> createAddressAggregate((SecurityContext) values[0], (Address) values[1],  serviceUtil.getServiceAddress()),
-                ReactiveSecurityContextHolder.getContext().defaultIfEmpty(sc),
-                integration.findAddress(headers, addresstext, delay, faultPercent))
-                .doOnError(ex -> LOG.warn("getCompositeAddress failed: {}", ex.toString()))
-                .log(null, FINE);
+//        return Mono.zip(
+//                values -> createAddressAggregate((SecurityContext) values[0], (Address) values[1]),
+//                ReactiveSecurityContextHolder.getContext().defaultIfEmpty(sc),
+//                integration.findAddress(headers, addresstext, delay, faultPercent))
+//                .doOnError(ex -> LOG.warn("getCompositeAddress failed: {}", ex.toString()))
+//                .log(null, FINE);
     }
 
     @Override
     public Mono<Void> createCompositeAddress(AddressAggregate body) {
         try {
-            Address addobj = new Address( body.getAddressId(),  body.getState(), body.getPostal_code(),body.getNeighborhood());
+            Address addobj = new Address(body.getAddressId(), body.getState(), body.getPostal_code(), body.getNeighborhood());
             integration.createAddress(addobj);
 
             // TBD make entry on l and s
 
-        }catch(RuntimeException re){
+        } catch (RuntimeException re) {
             LOG.warn("createCompositeProduct failed: {}", re.toString());
             throw re;
         }
@@ -179,17 +165,21 @@ public class ApplicationServiceImpl  implements AddressCompositeRESTfulService {
         return new Address(addressId, "Fallback product" + addressId, addressId, serviceUtil.getServiceAddress());
     }
 
-    private AddressAggregate createAddressAggregate(SecurityContext sc, Address address, String serviceAddress) {
+    private AddressAggregate createAddressAggregate(SecurityContext sc, Address address) {
 //        logAuthorizationInfo(sc);
         String country = "uk";
-        return  new AddressAggregate(country); // trmp
+//        return new AddressAggregate(); // trmp
 //        return new AddressAggregate(country);
+        return null;
     }
 
 
     private void simulateDelay(int delay) {
         LOG.debug("Sleeping for {} seconds...", delay);
-        try {Thread.sleep(delay * 1000);} catch (InterruptedException e) {}
+        try {
+            Thread.sleep(delay * 1000);
+        } catch (InterruptedException e) {
+        }
         LOG.debug("Moving on...");
     }
 
@@ -204,6 +194,7 @@ public class ApplicationServiceImpl  implements AddressCompositeRESTfulService {
     }
 
     private final Random randomNumberGenerator = new Random();
+
     private int getRandomNumber(int min, int max) {
 
         if (max < min) {

@@ -1,15 +1,12 @@
-package com.postal.microservice.composite.services;
+package com.postal.microservices.services;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.postal.addressdao.accessor.AddressAccessor;
-import com.postal.addressdao.exception.AddressDataAccessException;
-import com.postal.model.core.address.Address;
-import com.postal.model.core.address.AddressService;
-import com.postal.model.core.location.Location;
-import com.postal.model.core.location.LocationService;
-import com.postal.model.core.street.Street;
-import com.postal.model.core.street.StreetService;
-import com.postal.model.enums.Field;
+import com.postal.apil.core.address.Address;
+import com.postal.apil.core.address.AddressService;
+import com.postal.apil.core.location.Location;
+import com.postal.apil.core.location.LocationService;
+import com.postal.apil.core.street.Street;
+import com.postal.apil.core.street.StreetService;
 import com.postal.util.exceptions.InvalidInputException;
 import com.postal.util.exceptions.NotFoundException;
 import com.postal.util.http.HttpErrorInfo;
@@ -30,15 +27,8 @@ import reactor.core.publisher.Mono;
 
 import java.io.IOException;
 import java.net.URI;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import static java.util.logging.Level.FINE;
-
-//import org.springframework.cloud.stream.annotation.EnableBinding;
-//import org.springframework.cloud.stream.annotation.Output;
-//import org.springframework.messaging.MessageChannel;
 
 //@EnableBinding(ApplicationIntegration.MessageSources.class)
 @Component
@@ -49,23 +39,19 @@ public class ApplicationIntegration implements AddressService, StreetService, Lo
     private final WebClient.Builder webClientBuilder;
     private WebClient webClient;
     private final int serviceTimeoutSec;
-//    private final RestTemplate restTemplate;
-
+    //        private final RestTemplate restTemplate;
     private final String addressServiceUrl;
-//    private final String locationServiceUrl;
-//    private final String streetServiceUrl;
 
     @Autowired
     public ApplicationIntegration(WebClient.Builder webClientBuilder, ObjectMapper mapper, @Value("${app.address-service.timeoutSec}") int serviceTimeoutSec) {
-
-            @Value("${app.address-service.host}") String addressServiceHost,
-            @Value("${app.address-service.port}") int addressServicePort
 
         this.webClientBuilder = webClientBuilder;
         this.mapper = mapper;
         this.serviceTimeoutSec = serviceTimeoutSec;
         addressServiceUrl = "http://localhost:8080/address/";
-//        addressServiceUrl = "http://" + addressServiceHost + ":" + addressServicePort + "/address/";
+        //            @Value("${app.address-service.host}") String addressServiceHost,
+        //            @Value("${app.address-service.port}") int addressServicePort
+        //        addressServiceUrl = "http://" + addressServiceHost + ":" + addressServicePort + "/address/";
 
     }
 
@@ -157,34 +143,31 @@ public class ApplicationIntegration implements AddressService, StreetService, Lo
     @Retry(name = "address")
     @CircuitBreaker(name = "address")
     @Override
-    public Mono<Address> findAddress(HttpHeaders headers, String text, int delay, int faultPercent) throws AddressDataAccessException {
+    public Mono<Address> findAddress(HttpHeaders headers, String text, int delay, int faultPercent) {
 
         try {
             String url = addressServiceUrl + text;
             LOG.debug("Will call getProduct API on URL: {}", url);
 
-            final Map<Field, String> fieldStringMap = new HashMap<>();
-            fieldStringMap.put(Field.STREET, "3a Street");
-            AddressAccessor addressAccessor = new AddressAccessor();
-            final List<com.postal.model.models.Address> addressList = addressAccessor
-                    .findAddressByCountry("United Arab Emirates", fieldStringMap);
-//            Address address = restTemplate.getForObject(url, Address.class);
-            LOG.debug("Found a product with id: {}",addressList.toString());
+//            final Map<Field, String> fieldStringMap = new HashMap<>();
+//            fieldStringMap.put(Field.STREET, "3a Street");
+//            AddressAccessor addressAccessor = new AddressAccessor();
+//            final List<com.postal.apil.models.Address> addressList = addressAccessor
+//                    .findAddressByCountry("United Arab Emirates", fieldStringMap);
+////            Address address = restTemplate.getForObject(url, Address.class);
+//            LOG.debug("Found a product with id: {}", addressList.toString());
+            Object addressList = new Object();
             return (Mono<Address>) addressList;
 
         } catch (HttpClientErrorException ex) {
-
             LOG.warn("Got a unexpected HTTP error: {}, will rethrow it", ex.getStatusCode());
             LOG.warn("Error body: {}", ex.getResponseBodyAsString());
             throw ex;
-
-        }catch (Exception ex) {
-
-            LOG.warn("Got a unexpected HTTP error: {}, will rethrow it", ex.getStatusCode());
-            LOG.warn("Error body: {}", ex.getResponseBodyAsString());
-            throw ex;
-
+        } catch (Exception ex) {
+            LOG.warn("Got a unexpected HTTP error: {}, will rethrow it", ex.toString());
+            return null;
         }
+
     }
 
     @Override
