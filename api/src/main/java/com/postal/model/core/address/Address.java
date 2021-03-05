@@ -1,4 +1,4 @@
-package com.postal.apil.core.address;
+package com.postal.model.core.address;
 
 import lombok.Getter;
 import lombok.Setter;

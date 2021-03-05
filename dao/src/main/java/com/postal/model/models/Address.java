@@ -1,4 +1,4 @@
-package com.postal.apil.models;
+package com.postal.model.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;

@@ -1,4 +1,4 @@
-package com.postal.apil.core.street;
+package com.postal.model.core.street;
 
 public class Street {
     private String streetname;

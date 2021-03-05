@@ -1,11 +1,11 @@
 package com.postal.microservices.services;
 
 import com.postal.addressdao.accessor.AddressAccessor;
-import com.postal.apil.composite.AddressAggregate;
-import com.postal.apil.composite.AddressCompositeRESTfulService;
-import com.postal.apil.core.address.Address;
-import com.postal.apil.core.address.AddressService;
-import com.postal.apil.enums.Field;
+import com.postal.model.composite.AddressAggregate;
+import com.postal.model.composite.AddressCompositeRESTfulService;
+import com.postal.model.core.address.Address;
+import com.postal.model.core.address.AddressService;
+import com.postal.model.enums.Field;
 import com.postal.util.http.ServiceUtil;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import io.github.resilience4j.retry.annotation.Retry;
@@ -88,11 +88,14 @@ public class ApplicationServiceImpl implements AddressCompositeRESTfulService, A
         return null;
     }
 
+
+
     /**
      * Sample usage: curl $HOST:$PORT/address/usa
      *
      * @param headers
      * @param text
+     * @param country
      * @param delay
      * @param faultPercent
      * @return the country format, if found, else null
@@ -100,19 +103,64 @@ public class ApplicationServiceImpl implements AddressCompositeRESTfulService, A
     @Retry(name = "address")
     @CircuitBreaker(name = "address")
     @Override
-    public List<Address> findAddress(HttpHeaders headers, String text, int delay, int faultPercent) {
-
+    public List<Address> findStreetAddress(HttpHeaders headers, String text, String country, int delay, int faultPercent) {
         try {
-            String country = "United Arab Emirates";
-            LOG.debug("Finding for text : {}", text);
-            LOG.debug("Finding in country : {}", country);
             final Map<Field, String> fieldStringMap = new HashMap<>();
             fieldStringMap.put(Field.STREET, text);
-            final List<com.postal.apil.models.Address> addressList = addressAccessor
+            final List<com.postal.model.models.Address> addressList = addressAccessor
                     .findAddressByCountry(country, fieldStringMap);
-//            Address address = restTemplate.getForObject(url, Address.class);
             List<Address> addressArrayList = new ArrayList<>();
-            for (com.postal.apil.models.Address object: addressList) {
+            for (com.postal.model.models.Address object: addressList) {
+                addressArrayList.add(Address.builder()
+                        .suite_apartment_number(object.getNumber())
+                        .city_town_locality(object.getDistrict())
+                        .build());
+            }
+            return addressArrayList;
+        } catch (HttpClientErrorException ex) {
+            LOG.warn("Got a unexpected HTTP error: {}, will rethrow it", ex.getStatusCode());
+            LOG.warn("Error body: {}", ex.getResponseBodyAsString());
+            throw ex;
+        } catch (Exception ex) {
+            LOG.warn("Got a unexpected HTTP error: {}, will rethrow it", ex.toString());
+            return null;
+        }
+    }
+
+    /**
+     * Sample usage: curl $HOST:$PORT/address/usa
+     *
+     * @param headers
+     * @param allParams
+     * @param delay
+     * @param faultPercent
+     * @return the country format, if found, else null
+     */
+    @Retry(name = "address")
+    @CircuitBreaker(name = "address")
+    @Override
+    public List<Address> findAddress(HttpHeaders headers, Map<String, String> allParams, int delay, int faultPercent) {
+
+        try {
+            String country = "United States of America";
+            final Map<Field, String> fieldStringMap = new HashMap<>();
+            // using for-each loop for iteration over Map.entrySet()
+            //                fieldStringMap.put(Field.STREET, text);
+            for (Map.Entry<String,String> entry : allParams.entrySet()) {
+//                System.out.println("Key = " + entry.getKey() + ", Value = " + entry.getValue());
+                if(entry.getKey().equalsIgnoreCase("number"))
+                    fieldStringMap.put(Field.NUMBER, entry.getValue());
+                if(entry.getKey().equalsIgnoreCase("street"))
+                    fieldStringMap.put(Field.STREET, entry.getValue());
+                if(entry.getKey().equalsIgnoreCase("city"))
+                    fieldStringMap.put(Field.CITY, entry.getValue());
+                if(entry.getKey().equalsIgnoreCase("country"))
+                    country=entry.getValue();
+            }
+            final List<com.postal.model.models.Address> addressList = addressAccessor
+                    .findAddressByCountry(country, fieldStringMap);
+            List<Address> addressArrayList = new ArrayList<>();
+            for (com.postal.model.models.Address object: addressList) {
                 addressArrayList.add(Address.builder()
                         .suite_apartment_number(object.getNumber())
                         .city_town_locality(object.getDistrict())

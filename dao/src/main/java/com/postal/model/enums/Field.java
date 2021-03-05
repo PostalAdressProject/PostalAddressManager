@@ -1,4 +1,4 @@
-package com.postal.apil.enums;
+package com.postal.model.enums;
 
 import lombok.Getter;
 
