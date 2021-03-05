@@ -40,11 +40,11 @@ public class AddressAggregate {
     @NotNull
     @Min(100)
     private final int postal_code;
-
+    @NotNull
+    @Size(min=2, max=30)
     private final String country;
 
     private final List<com.postal.apil.core.street.Street> streetList;
     private final List<com.postal.apil.core.location.Location> locationList;
-
 
 }
