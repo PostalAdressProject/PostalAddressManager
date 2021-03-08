@@ -1,6 +1,7 @@
 package com.postal.microservices;
 
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
 import org.springframework.security.config.web.server.ServerHttpSecurity;
 import org.springframework.security.web.server.SecurityWebFilterChain;
@@ -8,6 +9,7 @@ import org.springframework.security.web.server.SecurityWebFilterChain;
 /**
  * Create creds for security
  */
+@EnableWebSecurity
 @EnableWebFluxSecurity
 public class SecurityConfig {
 //    @Bean
@@ -37,11 +39,6 @@ public class SecurityConfig {
                 .authorizeExchange()
                 .pathMatchers("/**").permitAll()
                 .anyExchange().authenticated();
-        //.and()
-        //.oauth2ResourceServer() don't use it,
-        //.jwt();
-        // Do not use it, otherwise you must define
-        // jwtDecoderByIssuerUri or jwtDecoderByJwkKeySetUri
 
         return http.build();
     }

@@ -15,7 +15,7 @@ public class AddressMongoDBApplication {
 //    AddressAccessor addressAccessor;
 
     public static void main(String args[]) throws AddressDataAccessException {
-//        final Map<Field, String> fieldStringMap = new HashMap<>();
+//      final Map<Field, String> fieldStringMap = new HashMap<>();
 //		fieldStringMap.put(Field.STREET, "3a Street");
 //		final List<Address> addressList = addressAccessor.findAddressByCountry("United Arab Emirates", fieldStringMap);
 //		System.out.println(addressList.get(0).getDistrict());
