@@ -11,3 +11,9 @@ microservices/build/
 *.class
 dao/build/
 model/build/
+.DS_Storedao/src/main/java/com/postal/addressdao/.DS_Store
+dao/src/main/java/com/postal/formatdao/.DS_Store
+dao/src/main/java/com/postal/formatdao/accessor/.DS_Store
+dao/src/main/java/com/postal/formatdao/configuration/.DS_Store
+dao/src/main/java/com/postal/formatdao/exception/.DS_Store
+dao/src/main/java/com/postal/formatdao/repository/.DS_Store
