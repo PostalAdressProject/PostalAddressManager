@@ -13,7 +13,7 @@ public class AddressCodeUtils {
 		final String jsonFilePath = "/home/altanai/Documents/architecture/PostalAddressManager/dao/src/main/resources/countries.json" ;//"resources/countries.json";
 		final ObjectMapper objectMapper = new ObjectMapper();
 		final Map<String, String> map = objectMapper.readValue(
-			Paths.get(jsonFilePath).toFile(), Map.class);
+				Paths.get(jsonFilePath).toFile(), Map.class);
 		return map.getOrDefault(country, StringUtils.EMPTY);
 	}
 }
