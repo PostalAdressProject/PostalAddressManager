@@ -1,11 +1,11 @@
 package com.postal.microservices.services;
 
 import com.postal.addressdao.accessor.AddressAccessor;
-import com.postal.model.composite.AddressAggregate;
-import com.postal.model.composite.AddressCompositeRESTfulService;
-import com.postal.model.core.address.Address;
-import com.postal.model.core.address.AddressService;
-import com.postal.model.enums.Field;
+import com.postal.api.composite.AddressAggregate;
+import com.postal.api.composite.AddressCompositeRESTfulService;
+import com.postal.api.core.address.Address;
+import com.postal.api.core.address.AddressService;
+import com.postal.addressdao.model.enums.Field;
 import com.postal.util.http.ServiceUtil;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import io.github.resilience4j.retry.annotation.Retry;
@@ -88,8 +88,6 @@ public class ApplicationServiceImpl implements AddressCompositeRESTfulService, A
         return null;
     }
 
-
-
     /**
      * Sample usage: curl $HOST:$PORT/address/usa
      *
@@ -107,10 +105,10 @@ public class ApplicationServiceImpl implements AddressCompositeRESTfulService, A
         try {
             final Map<Field, String> fieldStringMap = new HashMap<>();
             fieldStringMap.put(Field.STREET, text);
-            final List<com.postal.model.models.Address> addressList = addressAccessor
+            final List<com.postal.addressdao.model.models.Address> addressList = addressAccessor
                     .findAddressByCountry(country, fieldStringMap);
             List<Address> addressArrayList = new ArrayList<>();
-            for (com.postal.model.models.Address object: addressList) {
+            for (com.postal.addressdao.model.models.Address object: addressList) {
                 addressArrayList.add(Address.builder()
                         .suite_apartment_number(object.getNumber())
                         .city_town_locality(object.getDistrict())
@@ -157,10 +155,10 @@ public class ApplicationServiceImpl implements AddressCompositeRESTfulService, A
                 if(entry.getKey().equalsIgnoreCase("country"))
                     country=entry.getValue();
             }
-            final List<com.postal.model.models.Address> addressList = addressAccessor
+            final List<com.postal.addressdao.model.models.Address> addressList = addressAccessor
                     .findAddressByCountry(country, fieldStringMap);
             List<Address> addressArrayList = new ArrayList<>();
-            for (com.postal.model.models.Address object: addressList) {
+            for (com.postal.addressdao.model.models.Address object: addressList) {
                 addressArrayList.add(Address.builder()
                         .suite_apartment_number(object.getNumber())
                         .city_town_locality(object.getDistrict())

@@ -1,4 +1,4 @@
-package com.postal.model.core.location;
+package com.postal.api.core.location;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.*;

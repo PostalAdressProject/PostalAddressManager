@@ -1,4 +1,4 @@
-package com.postal.model.composite;
+package com.postal.api.composite;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -44,7 +44,7 @@ public class AddressAggregate {
     @Size(min=2, max=30)
     private final String country;
 
-    private final List<com.postal.model.core.street.Street> streetList;
-    private final List<com.postal.model.core.location.Location> locationList;
+    private final List<com.postal.api.core.street.Street> streetList;
+    private final List<com.postal.api.core.location.Location> locationList;
 
 }

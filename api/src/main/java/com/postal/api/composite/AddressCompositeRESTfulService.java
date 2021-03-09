@@ -1,4 +1,4 @@
-package com.postal.model.composite;
+package com.postal.api.composite;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

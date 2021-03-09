@@ -1,4 +1,4 @@
-package com.postal.model.event;
+package com.postal.api.event;
 
 import java.time.LocalDateTime;
 

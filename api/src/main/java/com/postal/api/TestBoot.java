@@ -1,4 +1,4 @@
-package com.postal.model;
+package com.postal.api;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -6,7 +6,7 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import com.postal.model.core.address.Address;
+import com.postal.api.core.address.Address;
 //import reactor.core.publisher.Mono;
 
 @Api(description = "REST API for composite product information.")
@@ -39,7 +39,6 @@ public class TestBoot {
     public String getAddress(@PathVariable String text) {
         Address a = Address.builder().recipient_name(text).build();
         return "I'm lost but I'm going to look for " + a.getRecipient_name();
-//        return "I'm lost ";
     }
 
     @GetMapping(
@@ -50,7 +49,7 @@ public class TestBoot {
         try {
             return 1 / divisor;
         } catch (RuntimeException e) {
-            throw new IllegalArgumentException("Damn. It's undefined.");
+            throw new IllegalArgumentException("It's undefined.");
         }
     }
 

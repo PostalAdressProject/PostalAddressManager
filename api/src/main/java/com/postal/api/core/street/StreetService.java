@@ -1,4 +1,4 @@
-package com.postal.model.core.street;
+package com.postal.api.core.street;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.*;

@@ -2,8 +2,8 @@ package com.postal.addressdao.accessor;
 
 import com.postal.addressdao.exception.AddressDataAccessException;
 import com.postal.addressdao.repository.AddressRepository;
-import com.postal.model.enums.Field;
-import com.postal.model.models.Address;
+import com.postal.addressdao.model.enums.Field;
+import com.postal.addressdao.model.models.Address;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
