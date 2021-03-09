@@ -1,4 +1,4 @@
-package com.postal.addressdao.model.enums;
+package com.postal.model.enums;
 
 import lombok.Getter;
 

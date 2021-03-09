@@ -1,7 +1,7 @@
 package com.postal.addressdao.repository;
 
-import com.postal.addressdao.model.enums.Field;
-import com.postal.addressdao.model.models.Address;
+import com.postal.model.enums.Field;
+import com.postal.model.models.Address;
 import org.springframework.stereotype.Repository;
 
 import java.io.IOException;

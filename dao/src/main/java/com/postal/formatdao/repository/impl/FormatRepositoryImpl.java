@@ -3,25 +3,20 @@ package com.postal.formatdao.repository.impl;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
-import com.postal.formatdao.Utils.FormatCodeUtils;
 import com.postal.formatdao.repository.FormatRepository;
-import com.postal.model.models.Address;
 import com.postal.model.models.PostalFormat;
 import org.bson.Document;
 import org.bson.conversions.Bson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
-
-import static com.mongodb.client.model.Filters.eq;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.mongodb.client.model.Filters.eq;
 
 @Component
 public class FormatRepositoryImpl implements FormatRepository{
@@ -30,7 +25,7 @@ public class FormatRepositoryImpl implements FormatRepository{
     private MongoTemplate mongoTemplate;
 
     @Autowired
-    private ObjectMapper objectMapper;
+    private ObjectMapper getObjectMapper;
 
 
     private static final String REGEX = "^{value}";
@@ -69,10 +64,10 @@ public class FormatRepositoryImpl implements FormatRepository{
 
     private List<PostalFormat> getPostalFormatFromDocument(final List<org.bson.Document> documents)
             throws JsonProcessingException {
-        final String jsonDocuments = objectMapper.writeValueAsString(documents);
+        final String jsonDocuments = getObjectMapper.writeValueAsString(documents);
 
-        final List<PostalFormat> postalFormatList = objectMapper
-                .readValue(jsonDocuments, new TypeReference<List<PostalFormat>>() {
+        final List<PostalFormat> postalFormatList = getObjectMapper.readValue(jsonDocuments,
+                new TypeReference<List<PostalFormat>>() {
                 });
         return postalFormatList;
     }

@@ -9,20 +9,18 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 
 @Configuration
 public class ApplicationConfig {
+
     public MongoClient mongoClient() {
         return MongoClients.create("mongodb://localhost:27017/");
     }
 
-    public @Bean
-//    MongoTemplate mongoTemplate() {
-//        return new MongoTemplate(mongoClient(), "address");
-//    }
-    MongoTemplate mongoTemplate() {
+    @Bean(name = "formatMongoTemplate")
+    public MongoTemplate mongoTemplate() {
         return new MongoTemplate(mongoClient(), "PostalFormat");
     }
 
-    public @Bean
-    ObjectMapper getObjectMapper() {
+    @Bean(name = "formatgetObjectMapper")
+    public ObjectMapper getObjectMapper() {
         return new ObjectMapper();
     }
 }

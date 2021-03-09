@@ -23,6 +23,9 @@ apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
 
 group = 'com.postal.addressdao'
+group = 'com.postal.formatdao'
+group = 'com.postal.model'
+
 version = '1.0.0-SNAPSHOT'
 sourceCompatibility = 1.8
 

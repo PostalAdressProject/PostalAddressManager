@@ -1,8 +1,9 @@
 package com.postal.addressdao;
 
 import com.postal.addressdao.accessor.AddressAccessor;
-import com.postal.addressdao.model.enums.Field;
-import com.postal.addressdao.model.models.Address;
+import com.postal.addressdao.exception.AddressDataAccessException;
+import com.postal.model.enums.Field;
+import com.postal.model.models.Address;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.ComponentScan;
@@ -20,7 +21,7 @@ public class AddressMongoDBApplication {
     @Autowired
     AddressAccessor addressAccessor ; //doesnt work for som reason
 
-    public void main2(String args[]) {
+    public void main2(String args[]) throws AddressDataAccessException {
 
         final Map<Field, String> fieldStringMap = new HashMap<>();
 		fieldStringMap.put(Field.STREET, "3a Street");
@@ -40,8 +41,8 @@ public class AddressMongoDBApplication {
 
 
 //import com.postal.addressdao.accessor.AddressAccessor;
-//import com.postal.addressdao.model.enums.Field;
-//import com.postal.addressdao.model.models.Address;
+//import com.postal.model.enums.Field;
+//import com.postal.model.models.Address;
 //import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.boot.CommandLineRunner;
 //import org.springframework.boot.SpringApplication;
