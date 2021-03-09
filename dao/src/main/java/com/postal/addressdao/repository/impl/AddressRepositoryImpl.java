@@ -55,7 +55,7 @@ public class AddressRepositoryImpl implements AddressRepository {
 		return getAddressFromDocument(results);
 	}
 
-	public List<Address> findAddressAcrossCountries(final Map<Field, String> fieldsMap) throws IOException{
+	public List<Address> findAddressAcrossAllCountries(final Map<Field, String> fieldsMap) throws IOException{
 		Map<String, String> allCountryNames =AddressCodeUtils.getAllCountryCodes();
         Iterator<Entry<String, String>> iterator = allCountryNames.entrySet().iterator();
 		List<Address> result = new ArrayList<>();

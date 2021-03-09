@@ -34,7 +34,7 @@ public class AddressMongoDBApplication implements CommandLineRunner {
 		fieldStringMap.put(Field.STREET, "EKLUTNA VILLAGE RD");
 		//fieldStringMap.put(Field.NUMBER, "41903");
 		final List<Address> addressList = addressAccessor
-			.findAddressAcrossCountries(fieldStringMap);
+			.findAddressAcrossAllCountries(fieldStringMap);
 		System.exit(0);
 	}
 }

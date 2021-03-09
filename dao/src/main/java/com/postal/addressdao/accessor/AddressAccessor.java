@@ -28,9 +28,9 @@ public class AddressAccessor {
         }
     }
 
-    public List<Address> findAddressAcrossCountries(final Map<Field, String> fieldMap) throws AddressDataAccessException {
+    public List<Address> findAddressAcrossAllCountries(final Map<Field, String> fieldMap) throws AddressDataAccessException {
         try {
-            return addressRepository.findAddressAcrossCountries(fieldMap);
+            return addressRepository.findAddressAcrossAllCountries(fieldMap);
         } catch (final IllegalArgumentException e) {
             System.out.println("Illegal argument exception occurred:" + e.getMessage());
             throw new IllegalArgumentException(e);
