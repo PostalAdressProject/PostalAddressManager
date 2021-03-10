@@ -8,18 +8,20 @@ import com.postal.addressdao.repository.AddressRepository;
 import com.postal.addressdao.utils.AddressCodeUtils;
 import com.postal.model.enums.Field;
 import com.postal.model.models.Address;
-import java.io.IOException;
-import java.util.*;
-import java.util.regex.Pattern;
-import java.util.Map.Entry;
-import java.util.Iterator;
-
-import com.postal.model.models.Country;
 import org.apache.commons.lang3.StringUtils;
 import org.bson.conversions.Bson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Component;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.regex.Pattern;
+
 
 @Component
 public class AddressRepositoryImpl implements AddressRepository {

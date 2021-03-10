@@ -1,0 +1,45 @@
+package com.postal.model.models;
+
+public class Format{
+    public boolean recipient_name;
+    public boolean business_name;
+    public StreetAddress street_address;
+    public boolean street_address2;
+    public boolean postal_code;
+    public boolean city_town_locality;
+    public boolean suite_apartment_number;
+    public boolean post_office_box;
+    public boolean rural_route_identifier;
+    public boolean station_informaton;
+    public boolean quarter_area;
+    public boolean neighborhood;
+    public boolean city_provinceCode;
+    public boolean locality_name;
+    public boolean municipality_name;
+    public boolean state;
+    public boolean province;
+    public boolean additional_information;
+    public boolean phone_number;
+    public boolean honorific_recipient_name;
+    public boolean locality_village;
+    public boolean country_subdivision;
+    public boolean province_district;
+    public boolean short_street_name;
+    public boolean post_office_number;
+    public boolean country_code;
+    public boolean postoffice_box_number;
+    public boolean postal_district;
+    public boolean post_office_box_number;
+    public boolean village;
+    public boolean department_name;
+    public boolean postal_town;
+    public boolean post_code;
+    public boolean territorial_subdivision;
+    public boolean state_sector;
+    public boolean abbreviation_for_street;
+    public boolean city_town_locality_region;
+    public boolean district;
+    public boolean suburb;
+    public boolean business_department_name;
+    public boolean street_address_direction;
+}

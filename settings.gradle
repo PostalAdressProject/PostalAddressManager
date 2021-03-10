@@ -12,5 +12,5 @@ include ':api'
 include ':util'
 include ':microservices'
 include ':dao'
-include ':model'
+include 'authorizationservice'
 
