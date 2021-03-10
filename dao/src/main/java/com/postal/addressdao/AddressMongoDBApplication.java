@@ -1,17 +1,8 @@
 package com.postal.addressdao;
 
-import com.postal.addressdao.accessor.AddressAccessor;
-import com.postal.addressdao.exception.AddressDataAccessException;
-import com.postal.model.enums.Field;
-import com.postal.model.models.Address;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 @ComponentScan({"com.postal.addressdao.accessor", "com.postal.addressdao.repository",
 	"com.postal.addressdao.configuration"})

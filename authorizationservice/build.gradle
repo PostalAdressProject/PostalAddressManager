@@ -37,9 +37,9 @@ dependencies {
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
-dependencyManagement {
-    imports { mavenBom("org.springframework.boot:spring-boot-dependencies:${springBootVersion}") }
-}
+//dependencyManagement {
+//    imports { mavenBom("org.springframework.boot:spring-boot-dependencies:${springBootVersion}") }
+//}
 test {
     useJUnitPlatform()
 }
