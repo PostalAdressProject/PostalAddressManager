@@ -16,27 +16,47 @@ import java.util.Map;
 @ComponentScan({"com.postal.addressdao.accessor", "com.postal.addressdao.repository",
 	"com.postal.addressdao.configuration"})
 @EnableMongoRepositories("com.postal.addressdao.repository")
+
 @EnableAutoConfiguration
 public class AddressMongoDBApplication {
-    @Autowired
-    AddressAccessor addressAccessor ; //doesnt work for som reason
+//    @Autowired
+//    AddressAccessor addressAccessor ; //doesnt work for som reason
+//
+//    public void main2(String args[]) throws AddressDataAccessException {
+//
+//        final Map<Field, String> fieldStringMap = new HashMap<>();
+//		fieldStringMap.put(Field.STREET, "3a Street");
+//		//fieldStringMap.put(Field.STREET, "39a Street");
+//		//fieldStringMap.put(Field.NUMBER, "41903 90378");
+//		final List<Address> addressList = addressAccessor.findAddressByCountry("United Arab Emirates", fieldStringMap);
+//		System.out.println(addressList.get(0).getRegion());
+//		System.out.println(addressList.get(0).getDistrict());
+//
+//		final Map<Field, String> fieldStringMap2 = new HashMap<>();
+//		fieldStringMap.put(Field.CITY, "Kennewick");
+//		final List<Address> addressList2 = addressAccessor.findAddressByCountry("United States", fieldStringMap);
+//		System.out.println(addressList2.get(0).getDistrict());
+//
+//    }
 
-    public void main2(String args[]) throws AddressDataAccessException {
+//
+//	@Autowired
+//	AddressAccessor addressAccessor;
+//
+//	public static void main(final String[] args) {
+//		SpringApplication.run(AddressMongoDBApplication.class, args);
+//	}
+//
+//	@Override
+//	public void run(final String... args) throws Exception {
+//		final Map<Field, String> fieldStringMap = new HashMap<>();
+//		fieldStringMap.put(Field.STREET, "EKLUTNA VILLAGE RD");
+//		//fieldStringMap.put(Field.NUMBER, "41903");
+//		final List<Address> addressList = addressAccessor
+//			.findAddressAcrossAllCountries(fieldStringMap);
+//		System.exit(0);
+//	}
 
-        final Map<Field, String> fieldStringMap = new HashMap<>();
-		fieldStringMap.put(Field.STREET, "3a Street");
-		//fieldStringMap.put(Field.STREET, "39a Street");
-		//fieldStringMap.put(Field.NUMBER, "41903 90378");
-		final List<Address> addressList = addressAccessor.findAddressByCountry("United Arab Emirates", fieldStringMap);
-		System.out.println(addressList.get(0).getRegion());
-		System.out.println(addressList.get(0).getDistrict());
-
-		final Map<Field, String> fieldStringMap2 = new HashMap<>();
-		fieldStringMap.put(Field.CITY, "Kennewick");
-		final List<Address> addressList2 = addressAccessor.findAddressByCountry("United States", fieldStringMap);
-		System.out.println(addressList2.get(0).getDistrict());
-
-    }
 }
 
 

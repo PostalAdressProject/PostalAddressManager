@@ -6,6 +6,7 @@ import org.apache.commons.lang3.StringUtils;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.Map;
+import org.apache.commons.lang3.StringUtils;
 
 public class AddressCodeUtils {
 
@@ -15,5 +16,12 @@ public class AddressCodeUtils {
 		final Map<String, String> map = objectMapper.readValue(
 				Paths.get(jsonFilePath).toFile(), Map.class);
 		return map.getOrDefault(country, StringUtils.EMPTY);
+	}
+	public static Map<String, String> getAllCountryCodes() throws IOException {
+		final String jsonFilePath = "dao/src/main/resources/countries.json";
+		final ObjectMapper objectMapper = new ObjectMapper();
+		final Map<String, String> map = objectMapper.readValue(
+				Paths.get(jsonFilePath).toFile(), Map.class);
+		return map;
 	}
 }
