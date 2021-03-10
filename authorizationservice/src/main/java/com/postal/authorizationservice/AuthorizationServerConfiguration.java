@@ -22,12 +22,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.AuthorityUtils;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
@@ -41,7 +37,6 @@ import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.InMemoryTokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -157,37 +152,6 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
 		converter.setAccessTokenConverter(accessTokenConverter);
 
 		return converter;
-	}
-}
-
-/**
- * For configuring the end users recognized by this Authorization Server
- */
-@Configuration
-class UserConfig extends WebSecurityConfigurerAdapter {
-
-	@Override
-	protected void configure(HttpSecurity http) throws Exception {
-		http
-			.authorizeRequests()
-				.antMatchers("/actuator/**").permitAll()
-				.mvcMatchers("/.well-known/jwks.json").permitAll()
-				.anyRequest().authenticated()
-				.and()
-			.httpBasic()
-				.and()
-			.csrf().ignoringRequestMatchers(request -> "/introspect".equals(request.getRequestURI()));
-	}
-
-	@Bean
-	@Override
-	public UserDetailsService userDetailsService() {
-		return new InMemoryUserDetailsManager(
-				User.withDefaultPasswordEncoder()
-					.username("magnus")
-					.password("password")
-					.roles("USER")
-					.build());
 	}
 }
 

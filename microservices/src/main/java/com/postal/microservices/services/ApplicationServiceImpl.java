@@ -60,15 +60,7 @@ public class ApplicationServiceImpl implements AddressCompositeRESTfulService, A
 
         HttpHeaders headers = getHeaders(requestHeaders, "X-group");
         return null;
-//        return Mono.zip(
-//                values -> createAddressAggregate((SecurityContext) values[0], (Address) values[1]),
-//                ReactiveSecurityContextHolder.getContext().defaultIfEmpty(sc),
-//                integration.getAddress(headers, addressId, delay, faultPercent)
-//                        .onErrorReturn(CallNotPermittedException.class, getAddressFallbackValue(addressId)))
-//                .doOnError(ex -> LOG.warn("getCompositeAddress failed: {}", ex.toString()))
-//                .log(null, FINE);
     }
-
 
     private HttpHeaders getHeaders(HttpHeaders requesthHeaders, String... headers) {
         LOG.trace("Will look for {} headers: {}", headers.length, headers);
