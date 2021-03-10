@@ -1,5 +1,3 @@
-com/postal/authorizationservice/OAuth2AuthorizationServerApplication.java
- com.postal.authorizationservice.OAuth2AuthorizationServerApplication
 com/postal/authorizationservice/AuthorizationServerConfiguration.java
  com.postal.authorizationservice.AuthorizationServerConfiguration
  com.postal.authorizationservice.IntrospectEndpoint
