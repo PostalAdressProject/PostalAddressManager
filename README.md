@@ -1,8 +1,64 @@
 # Postal Address Manager 
 
-Made with spring boot on spring framework 
+## Overview 
 
-## Requirnments
+![solution design](screenshots/GroupProject-Components%20diagram.jpg)
+
+### Front end
+A web-based UI form that can capture a country-specific address format entered by an end user
+It should dynamically adjust to capture the address
+Validation of the address formats and related data
+Ability to select data from user interface elements (drop down lists , autocomplete ..so on )
+Where possible, default values and constrained lists should be presented
+
+### API
+search for a given address based on the country-specific format
+search across countries to find "matching" addresses and display them in the application
+API callable via HTTP (curl or postman)
+Documentation for the API, preferably available alongside the API itself (think swagger / OpenAPI)
+
+### Search Operation
+address search should return a result to the end user in < 75ms
+should support at least 1000 concurrent requests (read, write, and search).
+
+### Database
+DB should be seeded with a large number of addresses of various formats spread across the countries on a per-capita basis (or approximately based on number of residents in each country).
+writing the code that seeds your database or exercise your API to do so or if you want to "go around" your API and write the data in some other way.
+
+## NFR 
+
+- Validation must occur in a reasonable time for the user
+- Deal with all countries
+Argentina | Australia | Austria | Belgium | Brazil | Britain | Canada | Channel Islands | Chile | China, People's Republic of | China, Republic of | Costa Rica | Crimea (Autonomous Republic of) | Czech Republic | Denmark | Estonia | Fiji | Finland | Formosa | France | Germany | Great Britain | Greenland | Hong Kong | Iceland | India | Indonesia | Ireland | Isle of Man | Israel | Italy | Japan | Korea | Latvia | Luxembourg | Malaysia | Mexico | Miscellaneous/Other | Netherlands | New Zealand | Northern Ireland | Norway | Oman | Pakistan | People's Republic of China | Poland | Portugal | Puerto Rico | Republic of China | Romania | Russia | Scotland | Singapore | South Africa | South Korea | Spain | Sweden | Switzerland | Taiwan | U.K. | Ukraine | United Kingdom | United States | Uruguay | Venezuela | Wales
+Maintainability and ease of deployment with CICD pipeline and dependency management
+- Internalization / globalization
+
+## API endpoints
+
+### 1. GET  /address/{text} - search by hashmap of filters in query string.
+
+Request Parameters can  delay and faultPercent. The filters can be number,street,unit,city,postcode
+
+Examples:
+- [GET] http://server:7000/address?country=United%20States&city=Kennewick
+- [GET] http://localhost:7000/address2?country=United%20States&city=Kennewick&number=222604
+
+### 2. GET /address/street/{text} -  Request Parameters can be country , delay and faultPercent
+
+Example :
+- [GET] http://server:7000/address/street/3a%20street
+- [GET] http://server:7000/address/street/3a%20street?country=United%20Arab%20Emirates
+
+### 3. GET /address/format/{country} - runs format search for countries and returns boolean response of true or false to dynamically adjust user interface
+
+Example :
+- [GET] http://server:7000/address/format/United%20Kingdom
+
+
+
+## Tools 
+
+Made with spring boot on spring framework
 
 ### 1. Java 
 ```shell script
@@ -32,7 +88,7 @@ Spring CLI v2.4.3
 
 ### 3. spring intializer 
 https://start.spring.io/
-![screenshot spring initilaizer](screenshots/Screenshot%20from%202021-02-19%2011-24-26.png)
+![screenshot spring initilaizer](screenshots/springinitilizer.png)
 
 ### Spring fox swagger ui 
 
@@ -110,8 +166,6 @@ db.us.findOne()
 db.us.find().limit(5).pretty()
 ```
 
-
-
 If ur using intellij u can add the mongo interface by connecting with DB
 ![mongodriver](screenshots/Screenshot%20from%202021-02-19%2013-40-56.png)
 and then import db
@@ -129,6 +183,37 @@ test its running
 $  curl -v localhost:7000/address/anh
 Greetings from Spring Boot!
 ```
+Login screen 
+
+![Login](screenshots/loginapi.png)
+
+Get the pass from logs and login 
+
+![password generated](screenshots/passworddefault.png)
+
+Results for API 
+
+![APi results](screenshots/apiresults.png)
+
+Results when login is not provided
+![APi results](screenshots/401.png)
+
+Results when api route doesnt exist
+![APi results](screenshots/rouotenotfounderror.png)
+
+## Health monitoring 
+
+http://localhost:7000/actuator/health/
+
+{"status":"UP"}
+
+## Load Test POSTMAN
+
+single call 
+![Load test](screenshots/postman.png)
+
+1 thousand calls 
+![Load test](screenshots/loadtest.png)
 
 ## Debug 
 
