@@ -1,7 +1,5 @@
 package com.postal.model.models;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 public class StreetAddress{
     public boolean street_name;
     public boolean building_number;

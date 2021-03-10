@@ -6,7 +6,6 @@ import org.apache.commons.lang3.StringUtils;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.Map;
-import org.apache.commons.lang3.StringUtils;
 
 public class AddressCodeUtils {
 
